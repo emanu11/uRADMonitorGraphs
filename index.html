@@ -1,0 +1,284 @@
+﻿<html>
+<head>
+    <title>uRADMonitor API Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300">
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/dygraph/1.1.1/dygraph-combined.js"></script>
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/dygraph/2.1.0/dygraph.min.js"></script>
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/dygraph/2.1.0/dygraph.min.css" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script type="text/javascript" src="dygraph-extra.js"></script>
+    <script type="text/javascript" src="jquery-ui-daterangepicker-devel/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="jquery-ui-daterangepicker-devel/jquery.comiseo.daterangepicker.js"></script>
+    <link rel="stylesheet" href="jquery-ui-daterangepicker-devel/jquery-ui.min.css">
+    <link rel="stylesheet" href="jquery-ui-daterangepicker-devel/jquery.comiseo.daterangepicker.css" type="text/css">
+    <script type="text/javascript" src="crosshair-plugin.js"></script>
+    <script type="text/javascript" src="utils.js"></script>
+    <script type="text/javascript">
+        var userid = "6716";
+        var userkey = "e0361c75aabf6ecc23cbf439604f3df5";
+    </script>
+</head>
+<!-- CONFIGURE HERE -->
+<!-- Open the dashboard, www.uradmonitor.com/dashboard , to retrieve your user id and key -->
+
+<body style="padding:10px;">
+    <!-- DEFINE SOME SIMPLE HTML CODE -->
+    <div style="width:800px; padding: 10px;">
+        1. Select your unit<br>
+        <select class="form-control" id="units"></select><br>
+        2. Select your unit's sensor<br>
+        <select class="form-control" id="sensors"></select><br>
+        <input id="dateRangePicker" name="dateRangePicker"><br />
+        Status: <span id="status">Idle</span>
+    </div>
+    <br />
+
+    <div id="graphsContainer" style='width:800px;height:400px;border-style: none;' id="area">
+        <span id="title"></span>
+        <div id="graphdiv" style='width:100%;height:350px;' />
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+        $(function () {
+            $("#dateRangePicker").daterangepicker({
+                initialText: 'Selecteaza Perioada',
+                mirrorOnCollision: true,
+                presetRanges: [{
+                    text: 'Astăzi',
+                    dateStart: function () { return moment() },
+                    dateEnd: function () { return moment() }
+                }, {
+                    text: 'Ieri',
+                    dateStart: function () { return moment().subtract(1, 'days') },
+                    dateEnd: function () { return moment().subtract(1, 'days') }
+                }, {
+                    text: 'Ultimele 7 zile',
+                    dateStart: function () { return moment().subtract(6, 'days') },
+                    dateEnd: function () { return moment() }
+                }, {
+                    text: 'Luna aceasta',
+                    dateStart: function () { return moment().startOf('month') },
+                    dateEnd: function () { return moment().endOf('month') }
+                }, {
+                    text: 'Ultimele 3 luni',
+                    dateStart: function () { return moment().subtract(2, 'months').startOf('month') },
+                    dateEnd: function () { return moment() }
+                }, {
+                    text: 'Ultimele 6 luni',
+                    dateStart: function () { return moment().subtract(5, 'months').startOf('month') },
+                    dateEnd: function () { return moment() }
+                }, {
+                    text: 'Anul acesta',
+                    dateStart: function () { return moment().startOf('year') },
+                    dateEnd: function () { return moment() }
+                }, {
+                    text: 'Anul trecut',
+                    dateStart: function () { return moment().subtract(1, 'years').startOf('year') },
+                    dateEnd: function () { return moment().subtract(1, 'years').endOf('year') }
+                }],
+                datepickerOptions: {
+                    numberOfMonths: 2,
+                    minDate: null,
+                    maxDate: 0
+                },
+                change: function (event, data) {
+                    downloadData($("#dateRangePicker").val(), $("#units").val(), userid, userkey);
+                }
+            });
+            $("#dateRangePicker").daterangepicker("setRange", { start: moment().subtract(0, 'days').startOf('day').toDate() });
+        });
+</script>
+<script type="text/javascript">
+        var selectedSensor;
+        function downloadUnits(u) {
+            $("#status").html('loading').css('color', 'magenta');
+            $.ajax({
+                type: 'GET',
+                url: "http://data.uradmonitor.com/api/v1/devices/userid/" + u,
+                dataType: 'json',
+                success: function (data) {
+                    // status
+                    if (Object.keys(data)[0] == 'error')
+                        $("#status").html(data['error']).css('color', 'red');
+                    else
+                        $("#status").html('Units ok').css('color', 'green');
+                    // populate select
+                    $.each(data, function (key, value) {
+                        $('#units').append($("<option />").val(value['id']).text(value['id']));
+                    });
+                    // first trigger
+                    if (data.length > 0)
+                        $('#units').trigger('change');
+                },
+                async: true
+            });
+        }
+
+        function downloadCapabilities(id, u, k) {
+            $("#status").html('loading').css('color', 'magenta');
+            $.ajax({
+                type: 'GET',
+                url: "http://data.uradmonitor.com/api/v1/devices/" + id,
+                dataType: 'json',
+                headers: { 'Content-Type': 'text/plain', 'X-User-id': u, 'X-User-hash': k },
+                success: function (data) {
+                    // status
+                    if (Object.keys(data)[0] == 'error')
+                        $("#status").html(data['error']).css('color', 'red');
+                    else
+                        $("#status").html('Sensors ok').css('color', 'green');
+                    // populate select
+                    $.each(data, function (key, value) {
+                        $('#sensors').append($("<option />").val(key).text(value[0]));
+                        console.log(key + " " + value[0]);
+                    });
+                    // first trigger
+                    if (data.length > 0)
+                        $('#sensors').trigger('change');
+                },
+                async: true
+            });
+        }
+
+        function downloadData(time, id, u, k) {
+            var sensor = selectedSensor;
+            var now = Math.round(moment() / 1000);
+            var timejson = jQuery.parseJSON(time);
+            var start = Math.round(moment(timejson.start).startOf('day') / 1000);
+            var stop = Math.round(moment(timejson.end).endOf('day') / 1000);
+
+            console.log("download :" + "https://data.uradmonitor.com/api/v1/devices/" + id + "/" + sensor + "/" + (now - start) + "/" + (now - stop));
+            $("#status").html('loading').css('color', 'magenta');
+            $.ajax({
+                type: 'GET',
+                url: "https://data.uradmonitor.com/api/v1/devices/" + id + "/" + sensor + "/" + (now - start) + "/" + (now - stop),
+                dataType: 'json',
+                headers: { 'Content-Type': 'text/plain', 'X-User-id': u, 'X-User-hash': k },
+                success: function (data, status) {
+                    if (status != 'success') {
+                        $("#status").html('error').css('color', 'red');
+                    } else {
+                        if (Object.keys(data)[0] == 'error')
+                            $("#status").html(data['error']).css('color', 'red');
+                        else {
+                            var stringified = JSON.stringify(data);
+                            $("#status").html('ok ' + (data.length ? (data.length + ' row(s) ') : ' ') + (stringified.length / 1000) + ' KB').css('color', 'green');
+
+                            drawChart(id, data, sensor);
+                        }
+                    }
+                },
+                async: true
+            });
+        }
+
+        function drawChart(id, data, sensor) {
+            var plot = [];
+            for (var index in data) {
+                if (!data.hasOwnProperty(index)) continue;
+                var unit = data[index];
+                var value = parseFloat(unit[sensor]);
+                plot[index] = [new Date(unit.time * 1000), value];
+            }
+            if (sensor == "cpm") sensor = "dose";
+            chart.updateOptions({
+                colors: ['#0d0dff', '0dff0d'],
+                labels: ['Time', sensor],
+                'file': plot,
+                ylabel: getUnit(sensor),
+            }
+            );
+        }
+
+        // START EXECUTION
+        if (typeof userid == 'undefined' || typeof userkey == 'undefined')
+            $("#status").html('Configure variables userid and userkey in the code, using your credentials, as presented in the dashboard').css('color', 'red');
+        else {
+            downloadUnits(userid);
+        }
+
+        $('#units').on('change', function () {
+            $('#sensors').empty();
+            downloadCapabilities(this.value, userid, userkey);
+        });
+
+        $('#sensors').on('change', function () {
+            selectedSensor = $("#sensors").val();
+            downloadData($("#dateRangePicker").val(), $("#units").val(), userid, userkey);
+        });
+
+        var chart = new Dygraph(
+            'graphdiv', [], {
+                axisLineColor: '#444444',
+                axisLineWidth: 2,
+                colors: ['#bbdff3'],
+                scipen: 0,
+                legend: 'always',
+                labelsDivStyles: { 'textAlign': 'right' },
+                plugins: [
+                    new Dygraph.Plugins.Crosshair({
+                        direction: "vertical",
+                        color: "red",
+                    })
+                ],
+                underlayCallback: function (ctx, area, g) {
+                    marker(selectedSensor, selectedSensor, ctx, area, g);
+                },
+                connectSeparatedPoints: true,
+                digitsAfterDecimal: 3,
+                rollPeriod: 14,
+                errorbars: true,
+                gridLineColor: '#444444',
+                gridLinePattern: [4, 4],
+                highlightCircleSize: 5,
+                strokeWidth: 2,
+                ylabel: getUnitByName(name),
+                labels: ['Time', '']
+            }
+        );
+
+
+
+        function line(ctx, area, g, y, color) {
+            var dcy = (g.toDomCoords(0, y))[1];
+            ctx.beginPath();
+            ctx.setLineDash([5, 5]);
+            ctx.moveTo(0, dcy);
+            ctx.lineTo(area.x + area.w, dcy);
+            ctx.strokeStyle = color;
+            ctx.stroke();
+            ctx.setLineDash([]);
+        }
+
+        function rectup(ctx, area, g, y, color) {
+            var dcy = (g.toDomCoords(0, y))[1];
+            ctx.fillStyle = color;
+            ctx.fillRect(0, area.y, area.x + area.w, dcy - area.y);
+        }
+
+        function rectdown(ctx, area, g, y, color) {
+            var dcy1 = (g.toDomCoords(0, y))[1];
+            var dcy2 = (g.toDomCoords(0, 0))[1];
+            ctx.fillStyle = color;
+            ctx.fillRect(0, dcy1, area.x + area.w, Math.abs(dcy2 - dcy1));
+        }
+
+
+        function marker(sensor, name, ctx, area, g) {
+            var limits = getLimits(name);
+            if (!limits) return;
+
+            var color = ["green", "yellow", "red"];
+            for (i = 0; i < 3; i++) {
+                line(ctx, area, g, limits[i], color[i]);
+            }
+            rectdown(ctx, area, g, limits[0], 'rgba(0,255,0,0.10)'); // green down
+            rectup(ctx, area, g, limits[2], 'rgba(255,0,0,0.20)'); // red up
+        }
+</script>
