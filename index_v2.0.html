@@ -269,7 +269,7 @@
                 jQuery("<div/>", {
                     class: "chart-card text-center col-md-6 rounded border",
                     html: '<span class=" title">' + getSensorName(value) + '</span>' +
-                    '<span class="details" id="details-' + value + '">pulaa</span><div id="' + value + '" class="chart-card-inner"></div>'
+                    '<span class="details" id="details-' + value + '"></span><div id="' + value + '" class="chart-card-inner"></div>'
                 }).appendTo("#chartsContainer");
 
                 downloadData($("#dateRangePicker").val(), $("#units").val(), value, userid, userkey);
