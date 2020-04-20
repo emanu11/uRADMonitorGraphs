@@ -42,7 +42,7 @@
 
     </div>
     <br />
-    <div class="feature-wrapper pt-5 pb-5 mt-5 mt-lg-0 justify-content-center d-flex">
+    <div class="feature-wrapper justify-content-center d-flex">
         <span>Pentru zoom, selectati zona din grafic pe care vreți să o măriți. Pentru reseatre, apăsați dublu-clik pe grafic</span>
         <div id="chartsContainer" class="align-items-center justify-content-start d-flex flex-wrap flex-shrink chartsContainer">
             <span id="title"></span>
@@ -162,7 +162,7 @@
             var start = Math.round(moment(timejson.start).startOf('day') / 1000);
             var stop = Math.round(moment(timejson.end).endOf('day') / 1000);
 
-           // console.log("download :" + "https://data.uradmonitor.com/api/v1/devices/" + id + "/" + sensor + "/" + (now - start) + "/" + (now - stop));
+            // console.log("download :" + "https://data.uradmonitor.com/api/v1/devices/" + id + "/" + sensor + "/" + (now - start) + "/" + (now - stop));
             $("#status").html('loading').css('color', 'magenta');
             $.ajax({
                 type: 'GET',
@@ -267,10 +267,9 @@
             charts = [];
             selectedValues.forEach(function (value) {
                 jQuery("<div/>", {
-
-                    html: '<span class="title">' + getSensorName(value) + '</span>' +
-                    '<span class="details" id="details-' + value + '"></span><div id="' + value + '" class="chart-card text-center mb-3 mb-md-0">' + getSensorName(value) + '</div>'
-
+                    class: "chart-card text-center col-md-6 rounded border",
+                    html: '<span class=" title">' + getSensorName(value) + '</span>' +
+                    '<span class="details" id="details-' + value + '">pulaa</span><div id="' + value + '" class="chart-card-inner"></div>'
                 }).appendTo("#chartsContainer");
 
                 downloadData($("#dateRangePicker").val(), $("#units").val(), value, userid, userkey);
@@ -291,20 +290,17 @@
 </script>
 <style>
     .chart-card {
-        margin-top: 1em;
-        text-align: center;
         height: 350px;
-        width: 100%;
+        text-align: center;
+        margin-top:3em;
+        margin-bottom:3em;
+    }
+    .chart-card-inner {
+        height: 350px;
     }
 
     .flex-shrink {
         flex: 0 0 1000px;
-    }
-
-    @media (max-width:768px) {
-        .flex-shrink {
-            flex: 0 0 500px;
-        }
     }
 
     .title {
@@ -323,7 +319,7 @@
     }
 
     .chartsContainer {
-        width: 50%;
+        width: 100%;
     }
 
     .dygraph-legend {
