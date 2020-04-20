@@ -40,6 +40,21 @@ function getUnit(sensor) {
     }
 }
 
+function getSensorName(sensor) {
+    switch (sensor) {
+        case "temperature": return "Temperature";
+        case "cpm": return "CPM";
+        case "voltage": return "Voltage";
+        case "duty": return "Duty";
+        case "pressure": return "Pressure";
+        case "humidity": return "Humidity";
+        case "pm25": return "PM2.5";
+        case "pm1": return "PM1.0";
+        case "pm10": return "PM10";
+        case "noise": return "Noise";
+    }
+}
+
 function getUnitByName(name) {
     switch (name) {
         case "Temperature": return "°C";
@@ -150,4 +165,40 @@ function getLimits(name) {
         var factor = getMassFactor(name);
         return [limits[0] * factor, limits[1] * factor, limits[2] * factor];
     }
+}
+
+function line(ctx, area, g, y, color) {
+    var dcy = (g.toDomCoords(0, y))[1];
+    ctx.beginPath();
+    ctx.setLineDash([5, 5]);
+    ctx.moveTo(0, dcy);
+    ctx.lineTo(area.x + area.w, dcy);
+    ctx.strokeStyle = color;
+    ctx.stroke();
+    ctx.setLineDash([]);
+}
+
+function rectup(ctx, area, g, y, color) {
+    var dcy = (g.toDomCoords(0, y))[1];
+    ctx.fillStyle = color;
+    ctx.fillRect(0, area.y, area.x + area.w, dcy - area.y);
+}
+
+function rectdown(ctx, area, g, y, color) {
+    var dcy1 = (g.toDomCoords(0, y))[1];
+    var dcy2 = (g.toDomCoords(0, 0))[1];
+    ctx.fillStyle = color;
+    ctx.fillRect(0, dcy1, area.x + area.w, Math.abs(dcy2 - dcy1));
+}
+
+function marker(sensor, ctx, area, g) {
+    var limits = getLimits(sensor);
+    if (!limits) return;
+
+    var color = ["green", "yellow", "red"];
+    for (i = 0; i < 3; i++) {
+        line(ctx, area, g, limits[i], color[i]);
+    }
+    rectdown(ctx, area, g, limits[0], 'rgba(0,255,0,0.10)'); // green down
+    rectup(ctx, area, g, limits[2], 'rgba(255,0,0,0.20)'); // red up
 }
