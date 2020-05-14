@@ -145,7 +145,7 @@
                         $("#status").html('Sensors ok').css('color', 'green');
                     // populate select
                     $.each(data, function (key, value) {
-                        if (key != 'timelocal' && key != 'all')
+                        if (key != 'all')
                             $('#sensors').append('<option value="' + key + '">' + value[0] + '</option>');
                     });
                     $('#sensors').selectpicker('refresh');

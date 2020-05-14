@@ -1,0 +1,44 @@
+html, body {
+  margin: 0;
+}
+html {
+}
+body {
+  color: #333;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 16px;
+}
+
+.gauge {
+    background: #f9f9f9;
+    position: relative;
+    color: #fff;
+    float: left;
+    width: 220px;
+    height: 220px;
+    margin: 0 20px 20px 0;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 10px;
+    border-radius: 30px;
+    clear: both;
+}
+
+.gauge-container {
+    text-align: center;
+    position:relative;
+}
+
+
+.gauge-textfield {
+    position:absolute;
+    width: 220px;
+    text-align: center;
+    padding-top:150px;
+    font-size: 3em;
+    font-weight: bold;
+    color: black;
+    font-family: 'Amaranth', sans-serif;
+}
+
+
+
