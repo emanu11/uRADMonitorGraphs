@@ -202,33 +202,3 @@ function marker(sensor, ctx, area, g) {
     rectdown(ctx, area, g, limits[0], 'rgba(0,255,0,0.10)'); // green down
     rectup(ctx, area, g, limits[2], 'rgba(255,0,0,0.20)'); // red up
 }
-
-class SnesorData {
-    constructor(sensor, name, measurementUnit, value) {
-        this.sensor = sensor;
-        this.name = name;
-        this.measurementUnit = measurementUnit;
-        this.value = value;
-    }
-}
-
-class DeviceCapability {
-    constructor(id, name, measurementUnit) {
-        this.id = id;
-        this.name = name;
-        this.measurementUnit = measurementUnit;
-    }
-}
-class Limit {
-    constructor(name, low, high) {
-        this.name = name;
-        this.low = low;
-        this.high = high;
-    }
-}
-class SensorTresholds {
-    constructor(name, limits) {
-        this.name = name;
-        this.limits = limits;
-    }
-}

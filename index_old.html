@@ -6,15 +6,12 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300">
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/dygraph/1.1.1/dygraph-combined.js"></script>
     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/dygraph/2.1.0/dygraph.min.js"></script>
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/dygraph/2.1.0/dygraph.min.css" />
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-
     <script type="text/javascript" src="dygraph-extra.js"></script>
-    <script type="text/javascript" src="dygraph-synchonizer.js"></script>
     <script type="text/javascript" src="jquery-ui-daterangepicker-devel/jquery-ui.min.js"></script>
     <script type="text/javascript" src="jquery-ui-daterangepicker-devel/jquery.comiseo.daterangepicker.js"></script>
     <link rel="stylesheet" href="jquery-ui-daterangepicker-devel/jquery-ui.min.css">
@@ -32,28 +29,23 @@
 <body style="padding:10px;">
     <!-- DEFINE SOME SIMPLE HTML CODE -->
     <div style="width:800px; padding: 10px;">
-        Status: <span id="status">Idle</span><hr />
-        Selectează senzorul
-        <select class="form-control" id="units"></select><br />
-        Selectează parametrii pentru care vrei să afișezi datele
-        <select class="form-control" multiple id="sensors"></select><br /><br />
-        Selectează perioada pentru care vrei să afișezi datele<br />
-        <input class="form-control" id="dateRangePicker" name="dateRangePicker" /><br />
-
+        1. Select your unit<br>
+        <select class="form-control" id="units"></select><br>
+        2. Select your unit's sensor<br>
+        <select class="form-control" id="sensors"></select><br>
+        <input id="dateRangePicker" name="dateRangePicker"><br />
+        Status: <span id="status">Idle</span>
     </div>
     <br />
-    <div class="feature-wrapper justify-content-center d-flex">
-        <span>Pentru zoom, selectati zona din grafic pe care vreți să o măriți. Pentru reseatre, apăsați dublu-clik pe grafic</span>
-        <div id="chartsContainer" class="align-items-center justify-content-start d-flex flex-wrap flex-shrink chartsContainer">
-            <span id="title"></span>
-            <div id="graphdiv" style='width:100%;height:350px;' />
-        </div>
+
+    <div id="graphsContainer" style='width:800px;height:400px;border-style: none;' id="area">
+        <span id="title"></span>
+        <div id="graphdiv" style='width:100%;height:350px;' />
     </div>
 </body>
 </html>
 <script type="text/javascript">
-        $(document).ready(function () {
-            $("#sensors").selectpicker();
+        $(function () {
             $("#dateRangePicker").daterangepicker({
                 initialText: 'Selecteaza Perioada',
                 mirrorOnCollision: true,
@@ -96,16 +88,15 @@
                     maxDate: 0
                 },
                 change: function (event, data) {
-                    if (selectedValues)
-                        createCharts(selectedValues);
+                    if ($("#dateRangePicker").val() && $("#units").val())
+                        downloadData($("#dateRangePicker").val(), $("#units").val(), userid, userkey);
                 }
             });
             $("#dateRangePicker").daterangepicker("setRange", { start: moment().subtract(0, 'days').startOf('day').toDate() });
         });
 </script>
 <script type="text/javascript">
-        var selectedValues;
-        var charts = [];
+        var selectedSensor;
         function downloadUnits(u) {
             $("#status").html('loading').css('color', 'magenta');
             $.ajax({
@@ -122,7 +113,6 @@
                     $.each(data, function (key, value) {
                         $('#units').append($("<option />").val(value['id']).text(value['id']));
                     });
-
                     // first trigger
                     if (data.length > 0)
                         $('#units').trigger('change');
@@ -130,6 +120,7 @@
                 async: true
             });
         }
+
         function downloadCapabilities(id, u, k) {
             $("#status").html('loading').css('color', 'magenta');
             $.ajax({
@@ -145,24 +136,29 @@
                         $("#status").html('Sensors ok').css('color', 'green');
                     // populate select
                     $.each(data, function (key, value) {
-                        if (key != 'all')
-                            $('#sensors').append('<option value="' + key + '">' + value[0] + '</option>');
+                        if (key != "timelocal" && key != "all") {
+                            $('#sensors').append($("<option />").val(key).text(value[0]));
+                            console.log(key + " " + value[0]);
+                        }
                     });
-                    $('#sensors').selectpicker('refresh');
                     // first trigger
-                    if (data.length > 0)
+                    if (Object.keys(data).length > 0) {
+                        selectedSensor = Object.keys(data)[1];
                         $('#sensors').trigger('change');
+                    }
                 },
                 async: true
             });
         }
-        function downloadData(time, id, sensor, u, k) {
+
+        function downloadData(time, id, u, k) {
+            var sensor = selectedSensor;
             var now = Math.round(moment() / 1000);
             var timejson = jQuery.parseJSON(time);
             var start = Math.round(moment(timejson.start).startOf('day') / 1000);
             var stop = Math.round(moment(timejson.end).endOf('day') / 1000);
 
-            // console.log("download :" + "https://data.uradmonitor.com/api/v1/devices/" + id + "/" + sensor + "/" + (now - start) + "/" + (now - stop));
+            console.log("download :" + "https://data.uradmonitor.com/api/v1/devices/" + id + "/" + sensor + "/" + (now - start) + "/" + (now - stop));
             $("#status").html('loading').css('color', 'magenta');
             $.ajax({
                 type: 'GET',
@@ -180,7 +176,6 @@
                             $("#status").html('ok ' + (data.length ? (data.length + ' row(s) ') : ' ') + (stringified.length / 1000) + ' KB').css('color', 'green');
 
                             drawChart(id, data, sensor);
-                            return data;
                         }
                     }
                 },
@@ -196,53 +191,14 @@
                 var value = parseFloat(unit[sensor]);
                 plot[index] = [new Date(unit.time * 1000), value];
             }
-
-            var chart = new Dygraph(
-                sensor, [], {
-                    axisLineColor: '#444444',
-                    axisLineWidth: 2,
-                    colors: ['#bbdff3'],
-                    scipen: 0,
-                    legend: 'always',
-                    labelsDivStyles: { 'textAlign': 'right' },
-                    plugins: [
-                        new Dygraph.Plugins.Crosshair({
-                            direction: "vertical",
-                            color: "red",
-                        })
-                    ],
-                    underlayCallback: function (ctx, area, g) {
-                        marker(sensor, ctx, area, g);
-                    },
-                    connectSeparatedPoints: true,
-                    digitsAfterDecimal: 3,
-                    rollPeriod: 14,
-                    errorbars: true,
-                    gridLineColor: '#444444',
-                    gridLinePattern: [4, 4],
-                    highlightCircleSize: 5,
-                    strokeWidth: 2,
-                    ylabel: getUnitByName(name),
-                    labels: ['Time', '']
-                }
-            );
-
-            charts.push(chart);
-
-            if (charts.length > 1)
-                Dygraph.synchronize(charts, {
-                    zoom: true,
-                    selection: true,
-                    range: false
-                });
-
             if (sensor == "cpm") sensor = "dose";
             chart.updateOptions({
                 colors: ['#0d0dff', '0dff0d'],
                 labels: ['Time', sensor],
                 'file': plot,
                 ylabel: getUnit(sensor),
-            });
+            }
+            );
         }
 
         // START EXECUTION
@@ -257,72 +213,38 @@
             downloadCapabilities(this.value, userid, userkey);
         });
 
-        $('#sensors').change(function () {
-            selectedValues = $('#sensors').val();
-            createCharts($('#sensors').val());
+        $('#sensors').on('change', function () {
+            selectedSensor = $("#sensors").val();
+            downloadData($("#dateRangePicker").val(), $("#units").val(), userid, userkey);
         });
 
-        function createCharts(selectedValues) {
-            $("#chartsContainer").empty();
-            charts = [];
-            selectedValues.forEach(function (value) {
-                jQuery("<div/>", {
-                    class: "chart-card text-center col-md-6 rounded border",
-                    html: '<span class=" title">' + getSensorName(value) + '</span>' +
-                    '<span class="details" id="details-' + value + '"></span><div id="' + value + '" class="chart-card-inner"></div>'
-                }).appendTo("#chartsContainer");
-
-                downloadData($("#dateRangePicker").val(), $("#units").val(), value, userid, userkey);
-
-                //device.avgArray[sensor] = arrayAvg(data.map(function (o) { return o[sensor]; })).toFixed(2);
-                //device.minArray[sensor] = arrayMin(data.map(function (o) { return o[sensor]; })).toFixed(2);
-                //device.maxArray[sensor] = arrayMax(data.map(function (o) { return o[sensor]; })).toFixed(2);
-
-                //// put labels
-                //document.getElementById("details-" + value).innerHTML =
-                //    '<table class="details"><tr><td>Min</td><td>Avg</td><td>Max</td></tr><tr><td class="min">' + this.device.getSensorMin(sensor) + getUnitByName(name, concVolume) +
-                //    '</td><td class="avg">' + this.device.getSensorAvg(sensor) + getUnitByName(name, concVolume) +
-                //    '</td><td class="max">' + this.device.getSensorMax(sensor) + getUnitByName(name, concVolume) + '</td></tr><table><br><span class="legend" id="legend-' + sensor + '"></span>';
-
-            });
-
-        }
+        var chart = new Dygraph(
+            'graphdiv', [], {
+                axisLineColor: '#444444',
+                axisLineWidth: 2,
+                colors: ['#bbdff3'],
+                scipen: 0,
+                legend: 'always',
+                labelsDivStyles: { 'textAlign': 'right' },
+                plugins: [
+                    new Dygraph.Plugins.Crosshair({
+                        direction: "vertical",
+                        color: "red",
+                    })
+                ],
+                underlayCallback: function (ctx, area, g) {
+                    marker(selectedSensor, selectedSensor, ctx, area, g);
+                },
+                connectSeparatedPoints: true,
+                digitsAfterDecimal: 3,
+                rollPeriod: 14,
+                errorbars: true,
+                gridLineColor: '#444444',
+                gridLinePattern: [4, 4],
+                highlightCircleSize: 5,
+                strokeWidth: 2,
+                ylabel: getUnitByName(name),
+                labels: ['Time', '']
+            }
+        );
 </script>
-<style>
-    .chart-card {
-        height: 350px;
-        text-align: center;
-        margin-top:3em;
-        margin-bottom:3em;
-    }
-    .chart-card-inner {
-        height: 350px;
-    }
-
-    .flex-shrink {
-        flex: 0 0 1000px;
-    }
-
-    .title {
-        color: black;
-        text-align: center;
-        font-size: 17px;
-        font-weight: 700;
-    }
-
-    .details {
-        text-align: right;
-        float: right;
-        color: #d8d9da;
-        font-size: 10px;
-        max-height: 20px;
-    }
-
-    .chartsContainer {
-        width: 100%;
-    }
-
-    .dygraph-legend {
-        background-color: rgba(255, 255, 255, 0.7);
-    }
-</style>
