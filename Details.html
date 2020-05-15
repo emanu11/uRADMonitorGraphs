@@ -193,9 +193,10 @@
             for (var index in data) {
                 if (!data.hasOwnProperty(index)) continue;
                 var unit = data[index];
-                var value = parseFloat(unit[sensor]);
+                var value = (unit[sensor]);
                 plot[index] = [new Date(unit.time * 1000), value];
             }
+            console.log(plot)
 
             var chart = new Dygraph(
                 sensor, [], {
@@ -215,9 +216,6 @@
                         marker(sensor, ctx, area, g);
                     },
                     connectSeparatedPoints: true,
-                    digitsAfterDecimal: 3,
-                    rollPeriod: 14,
-                    errorbars: true,
                     gridLineColor: '#444444',
                     gridLinePattern: [4, 4],
                     highlightCircleSize: 5,
