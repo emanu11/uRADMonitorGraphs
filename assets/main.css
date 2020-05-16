@@ -2,8 +2,7 @@ html, body {
     margin: 0;
 }
 
-html {
-}
+html {}
 
 body {
     color: #333;
@@ -24,11 +23,11 @@ body {
     border-radius: 10px;
 }
 
-.gauges-section .details{
-    float:right;
-    text-decoration:underline;
-    color:deepskyblue;
-    margin-right:5px;
+.gauges-section .details {
+    float: right;
+    text-decoration: underline;
+    color: deepskyblue;
+    margin-right: 5px;
 }
 
 .gauge {
@@ -37,7 +36,6 @@ body {
     height: 160px;
     position: relative;
 }
-
 
 .gauge-textfield {
     position: absolute;
@@ -73,35 +71,34 @@ body {
     border-bottom: none;
 }
 
-    .aqi-section h1 {
-        font-size: 4.2em;
-    }
+.aqi-section h1 {
+    font-size: 4.2em;
+}
 
-    .aqi-section h2 {
-        font-size: 3em;
-        margin-top: 5px !important;
-        font-weight: 600;
-        font-family: "Optima";
-    }
+.aqi-section h2 {
+    font-size: 3em;
+    margin-top: 5px !important;
+    font-weight: 600;
+    font-family: "Optima";
+}
 
-    .aqi-section #datetime {
-        text-decoration: underline
-    }
+.aqi-section #datetime {
+    text-decoration: underline
+}
 
-    .aqi-section .aqi-circle-container {
-        width: 100%;
-        height: 100px;
-        position: relative;
-    }
+.aqi-section .aqi-circle-container {
+    width: 100%;
+    height: 100px;
+    position: relative;
+}
 
-
-    .aqi-section .aqi-circle {
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        position: relative;
-        float: left;
-    }
+.aqi-section .aqi-circle {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    position: relative;
+    float: left;
+}
 
 .gauges-section {
     border: 1px solid;
@@ -114,17 +111,16 @@ body {
     height: 200px;
 }
 
-    .parameter-section span {
-        margin:20px 5px 20px 5px;
-        font-size: 1.5em;
-    }
+.parameter-section span {
+    margin: 20px 5px 20px 5px;
+    font-size: 1.5em;
+}
 
-    .parameter-section .name {
-    }
+.parameter-section .name {}
 
-    .parameter-section .value {
-        font-weight:600;
-    }
+.parameter-section .value {
+    font-weight: 600;
+}
 
 .aqi-name {
     text-align: center;
@@ -144,4 +140,64 @@ body {
     text-align: center;
     font-size: 1.8em;
     padding-top: 1.5em;
+}
+
+/* pax ->
+- - - - - - - - - - - - - - - - - - - - -  */
+
+.very-low {
+    background-color: #00af50;
+}
+
+.low {
+    background-color: #a7cf8c;
+}
+
+.medium {
+    background-color: #ffff00;
+}
+
+.high {
+    background-color: #ffbf00;
+}
+
+.very-high {
+    background-color: #bf0000;
+    color: whitesmoke;
+}
+
+#tabel-ICA h6 {
+    font-size: 16px;
+}
+
+#tabel-ICA {
+    text-align: center;
+}
+
+#tabel-ICA thead th {
+    padding: 0;
+    text-align: center;
+    outline: 1px solid rgba(255, 255, 255, .66);
+}
+
+#tabel-ICA thead th h6, #tabel-ICA thead th span {
+    padding: 2px 8px;
+    /* text-shadow: 1px 1px 1px rgba(255, 255, 255, .66); */
+}
+
+#tabel-ICA thead th h6 {
+    margin: 0;
+    padding: 8px;
+}
+
+#tabel-ICA span {
+    display: block;
+    font-size: 14px;
+    font-weight: normal;
+    /* float: right; */
+    background-color: rgba(255, 255, 255, .45);
+}
+
+#tabel-ICA th, #tabel-ICA td {
+    width: 16%;
 }
