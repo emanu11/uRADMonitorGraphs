@@ -3,11 +3,11 @@
 <head>
     <title>ICA Schubz</title>
     <link href="assets/main.css?v=5" type="text/css" rel="stylesheet">
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-    <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-    <link href='http://fonts.googleapis.com/css?family=Amaranth:400,700|Just+Another+Hand' rel='stylesheet'
+    <link href='https://fonts.googleapis.com/css?family=Amaranth:400,700|Just+Another+Hand' rel='stylesheet'
         type='text/css'>
     <script src="https://kit.fontawesome.com/bf01c07e21.js" crossorigin="anonymous"></script>
 
@@ -35,7 +35,7 @@
                         <h4 id="aqi-text" class="aqi-text"></h4>
                     </div>
                     <div class="aqi-datetime">
-                        <span id="datetime"></span>
+                        <span title="ultima citire" id="datetime"></span>
                     </div>
                 </div>
                 <div class="col-md-5 parameter-section">
@@ -71,7 +71,7 @@
                 Indicele de calitate a aerului se determină pe baza concentrațiilor noxelor CO, NO2, SO2, PM2,5 și PM10
                 înregistrate de senzor.
                 Se calculează pe baza metodologiei franceze CAQI – <a
-                    href="http://airqualitynow.eu/about_indices_definition.php">Common Air Quality Index.</a>
+                    href="https://airqualitynow.eu/about_indices_definition.php">Common Air Quality Index.</a>
                 Deocamndată ICA este furnizat doar de valorile înregistrate pentru PM1, PM2,5 și PM10. Mai multe detalii
                 despre poluanții PM găsiți <a
                     href="https://ww2.arb.ca.gov/resources/inhalable-particulate-matter-and-health">aici</a>
@@ -156,7 +156,7 @@
     function getDevices() {
         $.ajax({
             type: 'GET',
-            url: "http://data.uradmonitor.com/api/v1/devices",
+            url: "https://data.uradmonitor.com/api/v1/devices",
             dataType: 'json',
             headers: { 'Content-Type': 'text/plain', 'X-User-id': userid, 'X-User-hash': userkey },
             success: function (data) {
@@ -168,7 +168,7 @@
     function getDeviceStatus(device) {
         $.ajax({
             type: 'GET',
-            url: "http://data.uradmonitor.com/api/v1/devices/",
+            url: "https://data.uradmonitor.com/api/v1/devices/",
             dataType: 'json',
             headers: { 'Content-Type': 'text/plain', 'X-User-id': userid, 'X-User-hash': userkey },
             success: function (data) {
@@ -186,7 +186,7 @@
     async function getDeviceCapabilities(device) {
         await $.ajax({
             type: 'GET',
-            url: "http://data.uradmonitor.com/api/v1/devices/" + device,
+            url: "https://data.uradmonitor.com/api/v1/devices/" + device,
             dataType: 'json',
             headers: { 'Content-Type': 'text/plain', 'X-User-id': userid, 'X-User-hash': userkey },
             success: function (data) {
