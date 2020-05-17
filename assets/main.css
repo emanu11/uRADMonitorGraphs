@@ -146,23 +146,23 @@ body {
 - - - - - - - - - - - - - - - - - - - - -  */
 
 .very-low {
-    background-color: #00af50;
+    background-color: #37ac56;
 }
 
 .low {
-    background-color: #a7cf8c;
+    background-color: #9bd444;
 }
 
 .medium {
-    background-color: #ffff00;
+    background-color: #f1d309;
 }
 
 .high {
-    background-color: #ffbf00;
+    background-color: #fb0;
 }
 
 .very-high {
-    background-color: #bf0000;
+    background-color: #ff8c00;
     color: whitesmoke;
 }
 
