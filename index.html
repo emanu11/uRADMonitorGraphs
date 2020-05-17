@@ -1,4 +1,5 @@
 ﻿<html>
+
 <head>
     <title>ICA Schubz</title>
     <link href="assets/main.css?v=5" type="text/css" rel="stylesheet">
@@ -6,7 +7,8 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-    <link href='http://fonts.googleapis.com/css?family=Amaranth:400,700|Just+Another+Hand' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Amaranth:400,700|Just+Another+Hand' rel='stylesheet'
+        type='text/css'>
     <script src="https://kit.fontawesome.com/bf01c07e21.js" crossorigin="anonymous"></script>
 
     <script type="text/javascript" src="assets/gauge.min.js"></script>
@@ -66,239 +68,298 @@
                 Ce este Indicele de Calitate a Aerului (ICA)?
             </h1>
             <p>
-                Indicele de calitate a aerului se determină pe baza concentrațiilor noxelor CO, NO2, SO2, PM2,5 și PM10 înregistrate de senzor.
-                Se calculează pe baza metodologiei franceze  CAQI – <a href="http://airqualitynow.eu/about_indices_definition.php">Common Air Quality Index.</a>
-                Deocamndată ICA este furnizat doar de valorile înregistrate pentru PM1, PM2,5 și PM10. Mai multe detalii despre poluanții PM găsiți <a href="https://ww2.arb.ca.gov/resources/inhalable-particulate-matter-and-health">aici</a>
+                Indicele de calitate a aerului se determină pe baza concentrațiilor noxelor CO, NO2, SO2, PM2,5 și PM10
+                înregistrate de senzor.
+                Se calculează pe baza metodologiei franceze CAQI – <a
+                    href="http://airqualitynow.eu/about_indices_definition.php">Common Air Quality Index.</a>
+                Deocamndată ICA este furnizat doar de valorile înregistrate pentru PM1, PM2,5 și PM10. Mai multe detalii
+                despre poluanții PM găsiți <a
+                    href="https://ww2.arb.ca.gov/resources/inhalable-particulate-matter-and-health">aici</a>
             </p>
             <p>
-                Stațiile de măsurare oferă informații ce sunt utilizate în calcularea indicelui de calitate a aerului, cuprinzând poluanții principali (PM10), la care se adaugă poluanții auxiliari (PM2,5 și PM1).
-                Stațiile fac măsurători la intervale fixe, de 1 minut iar pe baza acestor măsuratori se calculează ICA pe ultimele <b>24 de ore</b> înregistrate.
-                Indicele de calitate a aerului este dat de valoarea cea mai mare a poluanților. Astfel, pentru calculul acestuia se corelează valorile poluanților și valoarea indicelui din tabelul de mai jos.
-                <br />Mai multe informatii aici: <a href="http://citeair.rec.org/home.html">http://citeair.rec.org/home.html</a>
+                Stațiile de măsurare oferă informații ce sunt utilizate în calcularea indicelui de calitate a aerului,
+                cuprinzând poluanții principali (PM10), la care se adaugă poluanții auxiliari (PM2,5 și PM1).
+                Stațiile fac măsurători la intervale fixe, de 1 minut iar pe baza acestor măsuratori se calculează ICA
+                pe ultimele <b>24 de ore</b> înregistrate.
+                Indicele de calitate a aerului este dat de valoarea cea mai mare a poluanților. Astfel, pentru calculul
+                acestuia se corelează valorile poluanților și valoarea indicelui din tabelul de mai jos.
+                <br />Mai multe informatii aici: <a
+                    href="http://citeair.rec.org/home.html">http://citeair.rec.org/home.html</a>
             </p>
+            
             <p>
-                <img src="images/aer_tabel_nivel_v3.png" alt="tab" height="" width="1000">
-            </p>
+            <table id="tabel-ICA" class="table table-responsive">
+                <thead>
+                    <tr>
+                        <th class="xlabel"><h6>
+                            Nivel poluare
+                        </h6> <span>Interval</span></th>
+                        <th class="very-low">
+                            <h6>Foarte scăzut</h6> <span>&lt;25</span>
+                        </th>
+                        <th class="low">
+                            <h6>Scăzut</h6> <span>25-50</span>
+                        </th>
+                        <th class="medium">
+                            <h6>Mediu</h6> <span>50-75</span>
+                        </th>
+                        <th class="high">
+                            <h6>Ridicat</h6> <span>75-100</span>
+                        </th>
+                        <th class="very-high">
+                            <h6>Foarte Ridicat</h6> <span>&gt;100</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="xlabel">PM1.0</td>
+                        <td>&lt;15</td>
+                        <td>15-30</td>
+                        <td>30-50</td>
+                        <td>50-100</td>
+                        <td>&gt;100</td>
+                    </tr>
+                    <tr>
+                        <td class="xlabel">PM2.5</td>
+                        <td>&lt;10</td>
+                        <td>10-20</td>
+                        <td>20-30</td>
+                        <td>30-60</td>
+                        <td>&gt;60</td>
+                    </tr>
+                    <tr>
+                        <td class="xlabel">PM10</td>
+                        <td>&lt;15</td>
+                        <td>15-30</td>
+                        <td>30-50</td>
+                        <td>50-100</td>
+                        <td>&gt;100</td>
+                    </tr>
+                </tbody>
+            </table>
+             </p>
         </div>
     </div>
 
 </body>
+
 </html>
 
 <script>
-        var currentData = [];
-        var last24HoursAverageData = [];
-        var capabilities = [];
-        var tresholds = [];
-        var gauges = [];
+    var currentData = [];
+    var last24HoursAverageData = [];
+    var capabilities = [];
+    var tresholds = [];
+    var gauges = [];
 
-        function getDevices() {
-            $.ajax({
-                type: 'GET',
-                url: "http://data.uradmonitor.com/api/v1/devices",
-                dataType: 'json',
-                headers: { 'Content-Type': 'text/plain', 'X-User-id': userid, 'X-User-hash': userkey },
-                success: function (data) {
-                    data.forEach(function (item) { console.log(item.id) });
-                },
-                async: true
-            });
-        }
-        function getDeviceStatus(device) {
-            $.ajax({
-                type: 'GET',
-                url: "http://data.uradmonitor.com/api/v1/devices/",
-                dataType: 'json',
-                headers: { 'Content-Type': 'text/plain', 'X-User-id': userid, 'X-User-hash': userkey },
-                success: function (data) {
-                    data.forEach(function (item) {
-                        if (device == item.id) {
-                            console.log("Status " + item.status);
-                            if (item.status == 1)
-                                getDeviceCapabilities(device);
-                        }
-                    });
-                },
-                async: true
-            });
-        }
-        async function getDeviceCapabilities(device) {
-            await $.ajax({
-                type: 'GET',
-                url: "http://data.uradmonitor.com/api/v1/devices/" + device,
-                dataType: 'json',
-                headers: { 'Content-Type': 'text/plain', 'X-User-id': userid, 'X-User-hash': userkey },
-                success: function (data) {
-                    console.log("__________Device capabilities_____________");
-                    Object.keys(data).forEach(function eachKey(key) {
-                        capabilities.push(new DeviceCapability(key, data[key][0], data[key][1]));
-
-                        t = getTresholds(key);
-                        if (t)
-                            tresholds.push(new SensorTresholds(key, t));
-                    });
-                    console.log(capabilities);
-                    console.log(tresholds);
-
-                    createGauges();
-                    getLast24HoursData(device, "all")
-                    getCurrentData(device, "all")
-
-                    //shcedule automsatic update of data at each 2 minutes
-                    setInterval(function () {
-                        getLast24HoursData(device, "all");
-                        getCurrentData(device, "all");
-                    }, 2 * 60 * 1000);
-                },
-                async: true
-            });
-        }
-        async function getLast24HoursData(device, sensor) {
-            last24HoursAverageData = [];
-            var now = Math.round(moment() / 1000)
-            var end = Math.round(moment() / 1000);
-            var start = Math.round(moment().subtract(24, 'hour'));
-
-            //console.log("https://data.uradmonitor.com/api/v1/devices/" + device + "/" + sensor + "/" + (now - start) + "/" + (now - end));
-            $.ajax({
-                type: 'GET',
-                url: "https://data.uradmonitor.com/api/v1/devices/" + device + "/" + sensor + "/" + (now - start) + "/" + (now - stop),
-                dataType: 'json',
-                headers: { 'Content-Type': 'text/plain', 'X-User-id': userid, 'X-User-hash': userkey },
-                success: function (data, status) {
-                    if (status != 'success') {
-                        console.log("fail");
+    function getDevices() {
+        $.ajax({
+            type: 'GET',
+            url: "http://data.uradmonitor.com/api/v1/devices",
+            dataType: 'json',
+            headers: { 'Content-Type': 'text/plain', 'X-User-id': userid, 'X-User-hash': userkey },
+            success: function (data) {
+                data.forEach(function (item) { console.log(item.id) });
+            },
+            async: true
+        });
+    }
+    function getDeviceStatus(device) {
+        $.ajax({
+            type: 'GET',
+            url: "http://data.uradmonitor.com/api/v1/devices/",
+            dataType: 'json',
+            headers: { 'Content-Type': 'text/plain', 'X-User-id': userid, 'X-User-hash': userkey },
+            success: function (data) {
+                data.forEach(function (item) {
+                    if (device == item.id) {
+                        console.log("Status " + item.status);
+                        if (item.status == 1)
+                            getDeviceCapabilities(device);
                     }
-                    else {
-                        console.log("____________Last 24 hours average data___________________");
-                        capabilities.forEach(function (deviceData) {
-                            if (deviceData.id == 'pm1' || deviceData.id == 'pm10' || deviceData.id == 'pm25')
-                                last24HoursAverageData.push(new SensorData(deviceData.id, deviceData.name, deviceData.measurementUnit, arrayAvg(data.map(function (o) { return o[deviceData.id]; })).toFixed(2)));
-                        });
-                        console.log(last24HoursAverageData);
-                        //caluclate AQI
-                        //get the maximum value from all the PM1, PM2.5, and PM10 measurements
-                        var maxParamValue = last24HoursAverageData.reduce(function (prev, current) {
-                            return (prev.value > current.value) ? prev : current
-                        })
-                        var AQI = mapValueToAQI(maxParamValue.id, maxParamValue.value);
-                        $("#aqi-value").text(AQI.value);
-                        $("#aqi-text").text(AQI.text);
-                        $("#aqi-text").css({ "color": AQI.color });
-                        $("#aqi-circle").css({ "background": AQI.color });
-                        console.log(AQI);
-                    }
-                },
-                async: true
-            });
-        }
-        function getCurrentData(device, sensor) {
-            currentData = [];
-            $.ajax({
-                type: 'GET',
-                url: "https://data.uradmonitor.com/api/v1/devices/" + device + "/" + sensor + "/60/0",
-                dataType: 'json',
-                headers: { 'Content-Type': 'text/plain', 'X-User-id': userid, 'X-User-hash': userkey },
-                success: function (data, status) {
-                    if (status != 'success') {
-                        console.log("fail");
-                    }
-                    else {
-                        console.log("____________Current data___________________");
-                        //update last read textfield
-                        $("#datetime").text(moment.unix(data[0].time).format('MMMM Do YYYY h:mm:ss a'));
-                        capabilities.forEach(function (capability) {
-                            Object.keys(data[0])
-                                .forEach(function eachKey(key) {
-                                    if (key == capability.id)
-                                        currentData.push(new SensorData(capability.id, capability.name, capability.measurementUnit, data[0][key]));
-                                });
-                        });
-                        console.log(currentData);
-                        console.log("___________________________________________");
-                        currentData.forEach(function (sensorData) {
-                            $("#" + sensorData.id).text(sensorData.value + " " + sensorData.measurementUnit);
-                        });
-
-                        //populate gauges
-                        currentData.forEach(function (sensorData) {
-                            gauges.forEach(function (gaugeData) {
-                                if (sensorData.id == gaugeData.sensor) {
-                                    gaugeData.gauge.set(sensorData.value);
-                                    $("#" + gaugeData.id + "-info").text(sensorData.name);
-                                    $("#" + gaugeData.id + "-unit").text(sensorData.measurementUnit);
-                                }
-                            });
-                        });
-                    }
-                },
-                async: true
-            });
-        }
-
-        function createGauges() {
-            gauges = [];
-            //this will render all the gauges based on the static values from getTresholds();
-            tresholds.forEach(function (treshold) {
-
-                const div = document.createElement('div');
-                var gaugeid = treshold.name + '-gauge';
-                div.className = 'col-md-4 gauge-container';
-                div.innerHTML = '<canvas class="gauge" id="' + gaugeid + '"></canvas>' +
-                    '<div id="' + gaugeid + '-textfield" class="gauge-textfield"></div>' +
-                    '<span id="' + gaugeid + '-info" class="gauge-info"></span>' +
-                    '<span id="' + gaugeid + '-unit" class="gauge-unit"></span>';
-                document.getElementById('sensor-gauges').appendChild(div);
-
-                //create gauge
-                gauge = new Gauge(document.getElementById(gaugeid));
-                var opts = {
-                    angle: -0.25,
-                    lineWidth: 0.2,
-                    pointer: {
-                        length: 0.6,
-                        strokeWidth: 0.05,
-                        color: '#000000'
-                    },
-                    //create gauge limits
-                    staticZones: [
-                        { strokeStyle: treshold.limits[0].color, min: treshold.limits[0].low, max: treshold.limits[0].high },
-                        { strokeStyle: treshold.limits[1].color, min: treshold.limits[1].low, max: treshold.limits[1].high },
-                        { strokeStyle: treshold.limits[2].color, min: treshold.limits[2].low, max: treshold.limits[2].high },
-                        { strokeStyle: treshold.limits[3].color, min: treshold.limits[3].low, max: treshold.limits[3].high },
-                        { strokeStyle: treshold.limits[4].color, min: treshold.limits[4].low, max: treshold.limits[4].high },
-                    ],
-                    staticLabels: {
-                        font: "10px sans-serif",
-                        labels: [treshold.limits[0].low, treshold.limits[1].low, treshold.limits[2].low, treshold.limits[3].low, treshold.limits[4].low],
-                        color: "#000000",
-                        fractionDigits: 0
-                    },
-                    limitMax: false,
-                    limitMin: false,
-                    strokeColor: '#E0E0E0',
-                    highDpiSupport: true,
-                    generateGradient: true,
-                };
-
-                gauge.minValue = treshold.limits[0].low;
-                gauge.maxValue = treshold.limits[4].high;
-                gauge.animationSpeed = 100;
-                gauge.setOptions(opts);
-                gauge.setTextField(document.getElementById(gaugeid + "-textfield"));
-
-                //add the gauges to the list
-                gauges.push({
-                    "id": gaugeid, "sensor": treshold.name, "gauge": gauge
                 });
+            },
+            async: true
+        });
+    }
+    async function getDeviceCapabilities(device) {
+        await $.ajax({
+            type: 'GET',
+            url: "http://data.uradmonitor.com/api/v1/devices/" + device,
+            dataType: 'json',
+            headers: { 'Content-Type': 'text/plain', 'X-User-id': userid, 'X-User-hash': userkey },
+            success: function (data) {
+                console.log("__________Device capabilities_____________");
+                Object.keys(data).forEach(function eachKey(key) {
+                    capabilities.push(new DeviceCapability(key, data[key][0], data[key][1]));
+
+                    t = getTresholds(key);
+                    if (t)
+                        tresholds.push(new SensorTresholds(key, t));
+                });
+                console.log(capabilities);
+                console.log(tresholds);
+
+                createGauges();
+                getLast24HoursData(device, "all")
+                getCurrentData(device, "all")
+
+                //shcedule automsatic update of data at each 2 minutes
+                setInterval(function () {
+                    getLast24HoursData(device, "all");
+                    getCurrentData(device, "all");
+                }, 2 * 60 * 1000);
+            },
+            async: true
+        });
+    }
+    async function getLast24HoursData(device, sensor) {
+        last24HoursAverageData = [];
+        var now = Math.round(moment() / 1000)
+        var end = Math.round(moment() / 1000);
+        var start = Math.round(moment().subtract(24, 'hour'));
+
+        //console.log("https://data.uradmonitor.com/api/v1/devices/" + device + "/" + sensor + "/" + (now - start) + "/" + (now - end));
+        $.ajax({
+            type: 'GET',
+            url: "https://data.uradmonitor.com/api/v1/devices/" + device + "/" + sensor + "/" + (now - start) + "/" + (now - stop),
+            dataType: 'json',
+            headers: { 'Content-Type': 'text/plain', 'X-User-id': userid, 'X-User-hash': userkey },
+            success: function (data, status) {
+                if (status != 'success') {
+                    console.log("fail");
+                }
+                else {
+                    console.log("____________Last 24 hours average data___________________");
+                    capabilities.forEach(function (deviceData) {
+                        if (deviceData.id == 'pm1' || deviceData.id == 'pm10' || deviceData.id == 'pm25')
+                            last24HoursAverageData.push(new SensorData(deviceData.id, deviceData.name, deviceData.measurementUnit, arrayAvg(data.map(function (o) { return o[deviceData.id]; })).toFixed(2)));
+                    });
+                    console.log(last24HoursAverageData);
+                    //caluclate AQI
+                    //get the maximum value from all the PM1, PM2.5, and PM10 measurements
+                    var maxParamValue = last24HoursAverageData.reduce(function (prev, current) {
+                        return (prev.value > current.value) ? prev : current
+                    })
+                    var AQI = mapValueToAQI(maxParamValue.id, maxParamValue.value);
+                    $("#aqi-value").text(AQI.value);
+                    $("#aqi-text").text(AQI.text);
+                    $("#aqi-text").css({ "color": AQI.color });
+                    $("#aqi-circle").css({ "background": AQI.color });
+                    console.log(AQI);
+                }
+            },
+            async: true
+        });
+    }
+    function getCurrentData(device, sensor) {
+        currentData = [];
+        $.ajax({
+            type: 'GET',
+            url: "https://data.uradmonitor.com/api/v1/devices/" + device + "/" + sensor + "/60/0",
+            dataType: 'json',
+            headers: { 'Content-Type': 'text/plain', 'X-User-id': userid, 'X-User-hash': userkey },
+            success: function (data, status) {
+                if (status != 'success') {
+                    console.log("fail");
+                }
+                else {
+                    console.log("____________Current data___________________");
+                    //update last read textfield
+                    $("#datetime").text(moment.unix(data[0].time).format('MMMM Do YYYY h:mm:ss a'));
+                    capabilities.forEach(function (capability) {
+                        Object.keys(data[0])
+                            .forEach(function eachKey(key) {
+                                if (key == capability.id)
+                                    currentData.push(new SensorData(capability.id, capability.name, capability.measurementUnit, data[0][key]));
+                            });
+                    });
+                    console.log(currentData);
+                    console.log("___________________________________________");
+                    currentData.forEach(function (sensorData) {
+                        $("#" + sensorData.id).text(sensorData.value + " " + sensorData.measurementUnit);
+                    });
+
+                    //populate gauges
+                    currentData.forEach(function (sensorData) {
+                        gauges.forEach(function (gaugeData) {
+                            if (sensorData.id == gaugeData.sensor) {
+                                gaugeData.gauge.set(sensorData.value);
+                                $("#" + gaugeData.id + "-info").text(sensorData.name);
+                                $("#" + gaugeData.id + "-unit").text(sensorData.measurementUnit);
+                            }
+                        });
+                    });
+                }
+            },
+            async: true
+        });
+    }
+
+    function createGauges() {
+        gauges = [];
+        //this will render all the gauges based on the static values from getTresholds();
+        tresholds.forEach(function (treshold) {
+
+            const div = document.createElement('div');
+            var gaugeid = treshold.name + '-gauge';
+            div.className = 'col-md-4 gauge-container';
+            div.innerHTML = '<canvas class="gauge" id="' + gaugeid + '"></canvas>' +
+                '<div id="' + gaugeid + '-textfield" class="gauge-textfield"></div>' +
+                '<span id="' + gaugeid + '-info" class="gauge-info"></span>' +
+                '<span id="' + gaugeid + '-unit" class="gauge-unit"></span>';
+            document.getElementById('sensor-gauges').appendChild(div);
+
+            //create gauge
+            gauge = new Gauge(document.getElementById(gaugeid));
+            var opts = {
+                angle: -0.25,
+                lineWidth: 0.2,
+                pointer: {
+                    length: 0.6,
+                    strokeWidth: 0.05,
+                    color: '#000000'
+                },
+                //create gauge limits
+                staticZones: [
+                    { strokeStyle: treshold.limits[0].color, min: treshold.limits[0].low, max: treshold.limits[0].high },
+                    { strokeStyle: treshold.limits[1].color, min: treshold.limits[1].low, max: treshold.limits[1].high },
+                    { strokeStyle: treshold.limits[2].color, min: treshold.limits[2].low, max: treshold.limits[2].high },
+                    { strokeStyle: treshold.limits[3].color, min: treshold.limits[3].low, max: treshold.limits[3].high },
+                    { strokeStyle: treshold.limits[4].color, min: treshold.limits[4].low, max: treshold.limits[4].high },
+                ],
+                staticLabels: {
+                    font: "10px sans-serif",
+                    labels: [treshold.limits[0].low, treshold.limits[1].low, treshold.limits[2].low, treshold.limits[3].low, treshold.limits[4].low],
+                    color: "#000000",
+                    fractionDigits: 0
+                },
+                limitMax: false,
+                limitMin: false,
+                strokeColor: '#E0E0E0',
+                highDpiSupport: true,
+                generateGradient: true,
+            };
+
+            gauge.minValue = treshold.limits[0].low;
+            gauge.maxValue = treshold.limits[4].high;
+            gauge.animationSpeed = 100;
+            gauge.setOptions(opts);
+            gauge.setTextField(document.getElementById(gaugeid + "-textfield"));
+
+            //add the gauges to the list
+            gauges.push({
+                "id": gaugeid, "sensor": treshold.name, "gauge": gauge
             });
-        }
+        });
+    }
 
 </script>
 <script>
 
-        //Start Execution
-        getDevices();
-        getDeviceStatus(device);
+    //Start Execution
+    getDevices();
+    getDeviceStatus(device);
 
 </script>
