@@ -10,6 +10,8 @@ body {
     font-size: 16px;
 }
 
+
+
 .gauge-container {
     position: relative;
     color: #fff;
@@ -158,11 +160,11 @@ body {
 }
 
 .high {
-    background-color: #fb0;
+    background-color: #ff8c00;
 }
 
 .very-high {
-    background-color: #ff8c00;
+    background-color: #ed1313;
     color: whitesmoke;
 }
 

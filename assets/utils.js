@@ -19,22 +19,22 @@ function getTresholds(name) {
     pm1Limits.push(new Limit("verrylow", "", "#37ac56", 0, 5));
     pm1Limits.push(new Limit("low", "", "#9bd444", 5, 10));
     pm1Limits.push(new Limit("medium", "", "#f1d309", 10, 20));
-    pm1Limits.push(new Limit("high", "", "#fb0", 20, 30));
-    pm1Limits.push(new Limit("verryhigh", "", "#ff8c00", 30, 35));
+    pm1Limits.push(new Limit("high", "", "#ff8c00", 20, 30));
+    pm1Limits.push(new Limit("verryhigh", "", "#ed1313", 30, 35));
 
     var pm25Limits = [];
     pm25Limits.push(new Limit("verrylow", "", "#37ac56", 0, 10));
     pm25Limits.push(new Limit("low", "", "#9bd444", 10, 20));
     pm25Limits.push(new Limit("medium", "", "#f1d309", 20, 30));
-    pm25Limits.push(new Limit("high", "", "#fb0", 30, 60));
-    pm25Limits.push(new Limit("verryhigh", "", "#ff8c00", 60, 70));
+    pm25Limits.push(new Limit("high", "", "#ff8c00", 30, 60));
+    pm25Limits.push(new Limit("verryhigh", "", "#ed1313", 60, 70));
 
     var pm10Limits = [];
     pm10Limits.push(new Limit("verrylow", "", "#37ac56", 0, 15));
     pm10Limits.push(new Limit("low", "", "#9bd444", 15, 30));
     pm10Limits.push(new Limit("medium", "", "#f1d309", 30, 50));
-    pm10Limits.push(new Limit("high", "", "#fb0", 50, 100));
-    pm10Limits.push(new Limit("verryhigh", "", "#ff8c00", 100, 110));
+    pm10Limits.push(new Limit("high", "", "#ff8c00", 50, 100));
+    pm10Limits.push(new Limit("verryhigh", "", "#ed1313", 100, 110));
 
     var tresholds = [];
     tresholds.push(new SensorTresholds("pm1", pm1Limits));
@@ -56,8 +56,8 @@ function mapValueToAQI(sensor, value) {
     AQILimits.push(new Limit("verrylow", "Nivel foarte scazut de poluare", "#37ac56", 0, 25));
     AQILimits.push(new Limit("low", "Nivel scazut de poluare", "#9bd444", 25, 50));
     AQILimits.push(new Limit("medium", "Nivel mediu de poluare", "#f1d309", 50, 75));
-    AQILimits.push(new Limit("high", "Nivel ridicat de poluare", "#fb0", 75, 100));
-    AQILimits.push(new Limit("verryhigh", "Nivel foarte ridicat de poluare", "#fb0", 100, 150));
+    AQILimits.push(new Limit("high", "Nivel ridicat de poluare", "#ff8c00", 75, 100));
+    AQILimits.push(new Limit("verryhigh", "Nivel foarte ridicat de poluare", "#ed1313", 100, 150));
 
     var sensorTreshold = getTresholds(sensor).filter(function (treshold) {
         return treshold.low < value && treshold.high > value
@@ -103,6 +103,61 @@ class SensorTresholds {
     constructor(name, limits) {
         this.name = name;
         this.limits = limits;
+    }
+}
+
+
+var ChartMethods = {
+    // sort a dataset
+    sort: function (chart, datasetIndex) {
+        var data = []
+        chart.datasets.forEach(function (dataset, i) {
+            dataset.bars.forEach(function (bar, j) {
+                if (i === 0) {
+                    data.push({
+                        label: chart.scale.xLabels[j],
+                        values: [bar.value]
+                    })
+                } else
+                    data[j].values.push(bar.value)
+            });
+        })
+
+        data.sort(function (a, b) {
+            if (a.values[datasetIndex] > b.values[datasetIndex])
+                return -1;
+            else if (a.values[datasetIndex] < b.values[datasetIndex])
+                return 1;
+            else
+                return 0;
+        })
+
+        chart.datasets.forEach(function (dataset, i) {
+            dataset.bars.forEach(function (bar, j) {
+                if (i === 0)
+                    chart.scale.xLabels[j] = data[j].label;
+                bar.label = data[j].label;
+                bar.value = data[j].values[i];
+            })
+        });
+        chart.update();
+    },
+    // reload data
+    reload: function (chart, datasetIndex, labels, values) {
+        var diff = chart.datasets[datasetIndex].bars.length - values.length;
+        if (diff < 0) {
+            for (var i = 0; i < -diff; i++)
+                chart.addData([0], "");
+        } else if (diff > 0) {
+            for (var i = 0; i < diff; i++)
+                chart.removeData();
+        }
+
+        chart.datasets[datasetIndex].bars.forEach(function (bar, i) {
+            chart.scale.xLabels[i] = labels[i];
+            bar.value = values[i];
+        })
+        chart.update();
     }
 }
 
