@@ -56,7 +56,7 @@
                         <span class="value" id="temperature"></span>
                     </div>
                     <div>
-                        <span id="weatherDescription"></span>
+                        <span id="weatherDescription" style="font-size:18px;"></span>
                         <span id="icon"><img id="weather" src="" alt="Weather icon"></span>
                     </div>
                     <div>
@@ -196,6 +196,16 @@
                             console.log("Status " + item.status);
                             if (item.status == 1)
                                 getDeviceCapabilities(device);
+                            else {
+                                $("#aqi-value").text("?");
+                                $("#aqi-text").text("Senzorul este offline");
+                                $("#aqi-text").css({ "color": "#ed1313" });
+                                $("#aqi-circle").css({ "background": "#37ac56" });
+                                $("#humidity").text("..........");
+                                $("#pressure").text("..........");
+                                $("#temperature").text("..........");
+
+                            }
                         }
                     });
                 },
@@ -513,7 +523,7 @@
             var settings = {
                 "async": true,
                 "crossDomain": true,
-                "url": "https://community-open-weather-map.p.rapidapi.com/weather?lang=ro&units=metric&q=Rasnov",
+                "url": "https://api.weatherapi.com/v1/current.json?key=06f45c0ea3d84aef81e191423203005&q=Rasnov&lang=ro",
                 "method": "GET",
                 "headers": {
                     "x-rapidapi-host": "community-open-weather-map.p.rapidapi.com",
@@ -522,12 +532,12 @@
             }
 
             $.ajax(settings).success(function (data) {
-                var iconcode = data.weather[0].icon;
-                var description = data.weather[0].description
-                var wind = data.wind.speed + "km/h " + mapDegreeToCardinal(data.wind.deg);
-                var iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png";
-                $('#weather').attr('src', iconurl);
-                $('#weatherDescription').text(camelize(description));
+                console.log(data.current);
+                var iconurl = data.current.condition.icon;
+                var description = data.current.condition.text;
+                var wind = data.current.wind_kph + "km/h " + data.current.wind_dir;
+                $('#weather').attr('src', "https://" + iconurl);
+                $('#weatherDescription').text(description);
                 $('#wind').text(wind);
             });
         }
