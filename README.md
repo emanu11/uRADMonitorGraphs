@@ -1,6 +1,6 @@
 # uRADMonitorGraphs
 
-<b>Proof-of-Concept implementation for uRADMonitor API and Dyngraphs.js</b>
+<b>Proof-of-Concept implementation for uRADMonitor API </b>
 <br/><br/>
 ![](images/graph_example.PNG)
 <br/>
@@ -10,4 +10,6 @@
    <li>dyngraphs.js</li>
    <li>jquery.comiseo.daterangepicker.js </li>
    <li>jquerry-ui.js</li>
+   <li>chart.js</li>
+   <li>gauge.js</li>
 <ul/>
