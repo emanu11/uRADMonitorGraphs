@@ -1,4 +1,4 @@
-function arrayMax(data) {
+﻿function arrayMax(data) {
     return data.reduce(function (a, b) {
         return Math.max(a, b);
     });
@@ -73,7 +73,46 @@ function mapValueToAQI(sensor, value) {
     return ret;
 }
 
-function getCompatibleGaugeData() {
+function mapDegreeToCardinal(degree) {
+    if (degree > 348.75)
+        return "N";
+    if (degree >= 0 && degree <= 22.5)
+        return "NNE";
+    if (degree >= 22.5 && degree <= 45)
+        return "NE";
+    if (degree >= 45 && degree <= 67.5)
+        return "ENE";
+    if (degree >= 67.5 && degree <= 90)
+        return "E";
+    if (degree >= 90 && degree <= 112.5)
+        return "ESE";
+    if (degree >= 112.5 && degree <= 135)
+        return "SE";
+    if (degree >= 135 && degree <= 157.5)
+        return "SSE";
+    if (degree >= 157.5 && degree <= 180)
+        return "S";
+    if (degree >= 180 && degree <= 202.5)
+        return "SSV";
+    if (degree >= 202.5 && degree <= 225)
+        return "SV";
+    if (degree >= 225 && degree <= 247.5)
+        return "VSV";
+    if (degree >= 247.5 && degree <= 270)
+        return "V";
+    if (degree >= 270 && degree <= 292.5)
+        return "VNV";
+    if (degree >= 292.5 && degree <= 315)
+        return "NV";
+    if (degree >= 315 && degree <= 337.5)
+        return "NNV";
+}
+
+function camelize(str) {
+    return str.replace(/(?:^\w|[A-Z]|Șș\b\w|\s+)/g, function (match, index) {
+        if (+match === 0) return " "; // or if (/\s+/.test(match)) for white spaces
+        return index === 0 ? match.toUpperCase() : match.toUpperCase();
+    });
 }
 
 class DeviceCapability {

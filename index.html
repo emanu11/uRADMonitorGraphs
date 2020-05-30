@@ -50,12 +50,20 @@
                         <span class="name">Presiune:</span>
                         <span class="value" id="pressure"></span>
                     </div>
-                    <div>
+                    <div style="border-bottom:solid 1px;">
                         <span class="fas fa-thermometer-half"></span>
                         <span class="name">Temperatura:</span>
                         <span class="value" id="temperature"></span>
                     </div>
-
+                    <div>
+                        <span id="weatherDescription"></span>
+                        <span id="icon"><img id="weather" src="" alt="Weather icon"></span>
+                    </div>
+                    <div>
+                        <span class="name">Vânt:</span>
+                        <span class="value" id="wind"></span>
+                        <span class="fas fa-wind"></span>
+                    </div>
                 </div>
             </div>
             <div class="row gauges-section">
@@ -222,6 +230,8 @@
                     setInterval(function () {
                         getLast24HoursData(device, "all");
                         getCurrentData(device, "all");
+                        getlast10MinutesAverageData(device, "all");
+                        getWeather();
                     }, 2 * 60 * 1000);
                 },
                 async: true
@@ -511,8 +521,14 @@
                 }
             }
 
-            $.ajax(settings).done(function (response) {
-                console.log(response);
+            $.ajax(settings).success(function (data) {
+                var iconcode = data.weather[0].icon;
+                var description = data.weather[0].description
+                var wind = data.wind.speed + "km/h " + data.wind.deg + mapDegreeToCardinal(data.wind.deg);
+                var iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png";
+                $('#weather').attr('src', iconurl);
+                $('#weatherDescription').text(camelize(description));
+                $('#wind').text(wind);
             });
         }
 
@@ -524,5 +540,4 @@
         getDevices();
         getDeviceStatus(device);
         getWeather();
-
 </script>
