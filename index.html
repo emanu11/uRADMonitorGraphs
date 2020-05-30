@@ -524,7 +524,7 @@
             $.ajax(settings).success(function (data) {
                 var iconcode = data.weather[0].icon;
                 var description = data.weather[0].description
-                var wind = data.wind.speed + "km/h " + data.wind.deg + mapDegreeToCardinal(data.wind.deg);
+                var wind = data.wind.speed + "km/h " + mapDegreeToCardinal(data.wind.deg);
                 var iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png";
                 $('#weather').attr('src', iconurl);
                 $('#weatherDescription').text(camelize(description));
