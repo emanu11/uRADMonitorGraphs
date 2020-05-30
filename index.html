@@ -11,7 +11,6 @@
     <link href='https://fonts.googleapis.com/css?family=Amaranth:400,700|Just+Another+Hand' rel='stylesheet'
           type='text/css'>
     <script src="https://kit.fontawesome.com/bf01c07e21.js" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css"></script>
 
     <script type="text/javascript" src="assets/gauge.min.js"></script>
     <script type="text/javascript" src="assets/utils.js"></script>
@@ -272,11 +271,14 @@
         async function getLast14DaysData(device, sensor) {
             var sevenDays = 14 * 24 * 60 * 60; // 14 days in seconds
             var oneDay = 86400;
+            //add an offset to get the 24 hours data starting from 00:00
+            var offset = Math.round((moment() - moment().startOf('day')) / 1000);
 
             //make calls to get data for each individual day in the last 7 days
-            for (var i = 0; i < sevenDays; i += oneDay) {
+            for (var i = offset; i < sevenDays + offset; i += oneDay) {
                 var start = i + oneDay;
                 var end = i;
+                console.log("https://data.uradmonitor.com/api/v1/devices/" + device + "/" + sensor + "/" + start + "/" + end);
                 $.ajax({
                     type: 'GET',
                     url: "https://data.uradmonitor.com/api/v1/devices/" + device + "/" + sensor + "/" + start + "/" + end,
@@ -292,8 +294,8 @@
                         else if (!data.hasOwnProperty("success")) {
 
                             var last14DaysData = [];
-                            console.log("____________" + moment.unix(moment().subtract(jqXHR._data.start, 'seconds') / 1000).format('MMMM Do YYYY')
-                                + " - " + moment.unix(moment().subtract(jqXHR._data.end, 'seconds') / 1000).format('MMMM Do YYYY')
+                            console.log("____________" + moment.unix(moment().subtract(jqXHR._data.start, 'seconds') / 1000).format('MMMM Do YYYY hh:mm a')
+                                + " - " + moment.unix(moment().subtract(jqXHR._data.end, 'seconds') / 1000).format('MMMM Do YYYY hh:mm a')
                                 + " AQI ___________________");
 
                             capabilities.forEach(function (deviceData) {
