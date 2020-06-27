@@ -53,8 +53,8 @@ function mapValueToAQI(sensor, value) {
     //value = 26;
     //sensor = "pm25";
     var AQILimits = [];
-    AQILimits.push(new Limit("verrylow", "Nivel foarte scazut de poluare", "#37ac56", 0, 25));
-    AQILimits.push(new Limit("low", "Nivel scazut de poluare", "#9bd444", 25, 50));
+    AQILimits.push(new Limit("verrylow", "Nivel foarte scăzut de poluare", "#37ac56", 0, 25));
+    AQILimits.push(new Limit("low", "Nivel scăzut de poluare", "#9bd444", 25, 50));
     AQILimits.push(new Limit("medium", "Nivel mediu de poluare", "#f1d309", 50, 75));
     AQILimits.push(new Limit("high", "Nivel ridicat de poluare", "#ff8c00", 75, 100));
     AQILimits.push(new Limit("verryhigh", "Nivel foarte ridicat de poluare", "#ed1313", 100, 150));

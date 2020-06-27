@@ -1,20 +1,19 @@
 ﻿<html>
 
 <head>
-    <title>ICA Schubz</title>
+    <title>Monitorizarea calității aerului, Râșnov</title>
     <link href="assets/main.css?v=5" type="text/css" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
-    <link href='https://fonts.googleapis.com/css?family=Amaranth:400,700|Just+Another+Hand' rel='stylesheet'
-          type='text/css'>
-    <script src="https://kit.fontawesome.com/bf01c07e21.js" crossorigin="anonymous"></script>
-
     <script type="text/javascript" src="assets/gauge.min.js"></script>
     <script type="text/javascript" src="assets/utils.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0">
+    <meta property=”og:description” content=”Monitorizarea calității aerului, Râșnov” />
+    <meta property="og:image" content="https://aer.schubz.ro/assets/img/monitorizare-calitate-aer-poluare-rasnov.jpg" />
 
     <script type="text/javascript">
         var userid = "6716";
@@ -23,527 +22,574 @@
     </script>
 </head>
 
-<body style="padding:20px;">
-    <div class="row">
-        <div class="col-md-5">
-            <div class="row">
-                <div class="col-md-7 aqi-section">
-                    <h2 class="aqi-name">ICA</h2>
-                    <div class="aqi-circle-container">
-                        <div id="aqi-circle" class="aqi-circle">
-                            <h1 id="aqi-value" class="aqi-value"></h1>
-                        </div>
-                        <h4 id="aqi-text" class="aqi-text"></h4>
+<body class=" bg-light py-2">
+    <div class="container my-4 ">
+        <div class="d-flex flex-row flex-wrap    ">
+            <div id="reaction-smileys" class="my-1" style="width: 37px; position: absolute; margin-left: -32px;">
+                <div class="" title="Nivel FOARTE SCĂZUT de poluare" style="background-color: #37ac56">&#128536;</div>
+                <div class="" title="Nivel SCĂZUT de poluare" style="background-color: #9bd444">&#128516;</div>
+                <div class="" title="Nivel MEDIU de poluare" style="background-color: #f1d309">&#128528;</div>
+                <div class="" title="Nivel RIDICAT de poluare" style="background-color: #ff8c00">&#128543;</div>
+                <div class="" title="Nivel FOARTE RIDICAT de poluare" style="background-color: #ed1313">&#128552;</div>
+            </div>
+            <div id="aqi-circle" class="p-2 px-4 m-1 shadow w300"  >
+                <div class=" mb-2">
+                    Indicele calității aerului:
+                </div>
+                <div class="row">
+                    <div class="col-md-4 text-right">
+                        <h1 id="aqi-value" class="aqi-value rounded text-center"
+                            style="background-color: rgba(255,255,255,.25);  "></h1>
                     </div>
-                    <div class="aqi-datetime">
-                        <span title="ultima citire" id="datetime"></span>
+                    <div class="col-md-8 ">
+                        <h5 id="aqi-text" class="aqi-text"></h5>
                     </div>
                 </div>
-                <div class="col-md-5 parameter-section">
-                    <div>
-                        <span class="fas fa-tint"></span>
-                        <span class="name">Umiditate:</span>
-                        <span class="value" id="humidity"></span>
+                <hr class="m-2">
+                <div class="aqi-datetime small">
+                    <span title="ultima citire" id="datetime"></span>
+                </div>
+                &rarr; <a href="calitate-aer-rasnov.html" class="details border-bottom">vezi detalii</a>
+            </div>
+            <div class="p-2 w300 bg-white shadow-sm border m-1  ">
+                <div id="zeweather" class="d-flex flex-row ">
+                    <div id="icon"><img id="weather" src="" alt="Weather icon"></div>
+                    <div id="weatherDescription" style="font-size:18px;"></div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-6 ">
+                        <div class="name small border-top">&#128167; Umiditate:</div>
+                        <div class="value strong" id="humidity"></div>
                     </div>
-                    <div>
-                        <span class="fas fa-level-down-alt"></span>
-                        <span class="name">Presiune:</span>
-                        <span class="value" id="pressure"></span>
+                    <div class="col-md-6 ">
+                        <div class="name small border-top">&#10984; Presiune:</div>
+                        <div class="value strong" id="pressure"></div>
                     </div>
-                    <div style="border-bottom:solid 1px;">
-                        <span class="fas fa-thermometer-half"></span>
-                        <span class="name">Temperatura:</span>
-                        <span class="value" id="temperature"></span>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 ">
+                        <div class="name small border-top">&#127777; Temperatura:</div>
+                        <div class="value strong" id="temperature"></div>
                     </div>
-                    <div>
-                        <span id="weatherDescription" style="font-size:18px;"></span>
-                        <span id="icon"><img id="weather" src="" alt="Weather icon"></span>
-                    </div>
-                    <div>
-                        <span class="name">Vânt:</span>
-                        <span class="value" id="wind"></span>
-                        <span class="fas fa-wind"></span>
+                    <div class="col-md-6 ">
+                        <div class="name small border-top">&#127811; Vânt:</div>
+                        <div class="value strong" id="wind"></div>
                     </div>
                 </div>
             </div>
-            <div class="row gauges-section">
-                <div id="sensor-gauges" class="col-md-12">
-                </div>
-                <a href="Details.html" class="details">vezi detalii-></a>
-                <span>Sus este indicata media pe ultimele 10 minute a PM</span>
+            <div class="p-3 w300 shadow-sm border m-1 row bg-white" style="line-height: 1.33;">
+                <h2 class="h5 border-bottom  ">Calitatea aerului la <b>Râșnov</b></h2>
+                <div style="font-size: 14px;"> Senzorul de monitorizare a calității aerului este achiziționat prin
+                    <br><a class="d-inline-block float-right" href="https://brasov.stiintescu.ro"><img
+                            src="assets/img/logo_stiintescu.png" height="50" alt="Fondul Științescu Brașov"
+                            class="mt-2"></a> <a href="https://brasov.stiintescu.ro">Fondul Științescu</a>,<br> în
+                    cadrul proiectului <a href="https://www.facebook.com/centrul.schubz">Semințe de științe</a>. </div>
+
             </div>
+            <div id="sensor-gauges" class="text-center d-flex flex-row flex-wrap mt-1 ">
+            </div>
+
         </div>
-        <div class="col-md-7">
-            <h1>
-                Ce este Indicele de Calitate a Aerului (ICA)?
-            </h1>
-            <p>
-                Indicele de calitate a aerului se determină pe baza concentrațiilor noxelor CO, NO2, SO2, PM2,5 și PM10
-                înregistrate de senzor.
-                Se calculează pe baza metodologiei franceze CAQI – <a href="https://airqualitynow.eu/about_indices_definition.php">Common Air Quality Index.</a>
-                Deocamndată ICA este furnizat doar de valorile înregistrate pentru PM1, PM2,5 și PM10. Mai multe detalii
-                despre poluanții PM găsiți <a href="https://ww2.arb.ca.gov/resources/inhalable-particulate-matter-and-health">aici</a>
-            </p>
-            <p>
-                Stațiile de măsurare oferă informații ce sunt utilizate în calcularea indicelui de calitate a aerului,
-                cuprinzând poluanții principali (PM10), la care se adaugă poluanții auxiliari (PM2,5 și PM1).
-                Stațiile fac măsurători la intervale fixe, de 1 minut iar pe baza acestor măsuratori se calculează ICA
-                pe ultimele <b>24 de ore</b> înregistrate.
-                Indicele de calitate a aerului este dat de valoarea cea mai mare a poluanților. Astfel, pentru calculul
-                acestuia se corelează valorile poluanților și valoarea indicelui din tabelul de mai jos.
-                <br />Mai multe informatii aici: <a href="http://citeair.rec.org/home.html">http://citeair.rec.org/home.html</a>
-            </p>
-            <hr />
-            <p>
-                <table id="tabel-ICA" class="table table-responsive">
-                    <thead>
-                        <tr>
-                            <th class="xlabel">
-                                <h6>
-                                    Nivel poluare
-                                </h6> <span>Interval</span>
-                            </th>
-                            <th class="very-low">
-                                <h6>Foarte scăzut</h6> <span>&lt;25</span>
-                            </th>
-                            <th class="low">
-                                <h6>Scăzut</h6> <span>25-50</span>
-                            </th>
-                            <th class="medium">
-                                <h6>Mediu</h6> <span>50-75</span>
-                            </th>
-                            <th class="high">
-                                <h6>Ridicat</h6> <span>75-100</span>
-                            </th>
-                            <th class="very-high">
-                                <h6>Foarte Ridicat</h6> <span>&gt;100</span>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="xlabel">PM1.0</td>
-                            <td>&lt;15</td>
-                            <td>15-30</td>
-                            <td>30-50</td>
-                            <td>50-100</td>
-                            <td>&gt;100</td>
-                        </tr>
-                        <tr>
-                            <td class="xlabel">PM2.5</td>
-                            <td>&lt;10</td>
-                            <td>10-20</td>
-                            <td>20-30</td>
-                            <td>30-60</td>
-                            <td>&gt;60</td>
-                        </tr>
-                        <tr>
-                            <td class="xlabel">PM10</td>
-                            <td>&lt;15</td>
-                            <td>15-30</td>
-                            <td>30-50</td>
-                            <td>50-100</td>
-                            <td>&gt;100</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </p>
+        <div class=" row mt-4">
+            <table id="tabel-ICA" class="col-md-6   mt-2  table  table-sm table-responsive" style="font-size: 14px;">
+                <thead>
+                    <tr>
+                        <th class="xlabel bg-white">
+                            <strong class="mb-2 d-block"">
+                                            Nivel poluare
+                                        </strong> <span>Interval</span>
+                                    </th>
+                                    <th class=" very-low">
+                                <div class="h4 mt-1 mb-0">
+                                    &#128536;
+                                </div><strong class="pt-0 mb-1 d-block">F. scăzut </strong> <span>&lt;25</span>
+                        </th>
+                        <th class="low">
+                            <div class="h4 mt-1 mb-0">
+                                &#128516;
+                            </div><strong class="pt-0 mb-1 d-block">Scăzut </strong> <span>25-50</span>
+                        </th>
+                        <th class="medium">
+                            <div class="h4 mt-1 mb-0">
+                                &#128528;
+                            </div><strong class="pt-0 mb-1 d-block">Mediu </strong> <span>50-75</span>
+                        </th>
+                        <th class="high">
+                            <div class="h4 mt-1 mb-0">
+                                &#128543;
+                            </div><strong class="pt-0 mb-1 d-block">Ridicat </strong> <span>75-100</span>
+                        </th>
+                        <th class="very-high">
+                            <div class="h4 mt-1 mb-0">
+                                &#128552;
+                            </div><strong class="pt-0 mb-1 d-block">F. Ridicat </strong> <span>&gt;100</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="xlabel">PM1.0</td>
+                        <td>&lt;15</td>
+                        <td>15-30</td>
+                        <td>30-50</td>
+                        <td>50-100</td>
+                        <td>&gt;100</td>
+                    </tr>
+                    <tr>
+                        <td class="xlabel">PM2.5</td>
+                        <td>&lt;10</td>
+                        <td>10-20</td>
+                        <td>20-30</td>
+                        <td>30-60</td>
+                        <td>&gt;60</td>
+                    </tr>
+                    <tr>
+                        <td class="xlabel">PM10</td>
+                        <td>&lt;15</td>
+                        <td>15-30</td>
+                        <td>30-50</td>
+                        <td>50-100</td>
+                        <td>&gt;100</td>
+                    </tr>
+                </tbody>
+            </table>
+            <img src="assets/img/tabel-ICA-AQI.png" alt="valori indice calitatea aerului" id="tabel-ICA-mobile">
+            <div class="col-md-4 border p-2 px-3 bg-white pr-5" style="line-height: 1.4; max-width: 370px;">
+                <p>
+                <h3 class="mark d-inline h6"><b>Indicele de calitate a aerului</b> (ICA)</h3> se determină pe baza
+                concentrațiilor PM1, PM2,5 și
+                PM10 înregistrate de senzor. Se calculează pe baza metodologiei <a
+                    href="https://airqualitynow.eu/about_indices_definition.php">Common Air Quality Index</a> (AQI).
+                </p>
+                &rarr; <a href="#" data-toggle="modal" data-target="#exampleModal">
+                    mai multe detalii</a>.
+            </div>
+
         </div>
-    </div>
-    <hr />
-    <h3>AQI pe ultimele 14 zile</h3>
-    <div class="row">
-        <div class="col-md-6">
-            <canvas id="aqiChart" width="200" height="100"></canvas>
+        <div class="bg-white mt-5 px-2 py-4" style="width: 900px;">
+            <h3 class="text-center h5">
+                Indicele calității aerului (AQI) în ultimele 2 săptămâni
+            </h3>
+            <canvas id="aqiChart" class="" width="200" height="75"></canvas>
         </div>
+
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ce este Indicele de Calitate a Aerului (ICA)?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <p>
+                        Indicele de calitate a aerului se determină pe baza concentrațiilor noxelor CO, NO2, SO2, PM2,5
+                        și PM10 înregistrate de senzor. Se calculează pe baza metodologiei franceze CAQI – <a href="https://airqualitynow.eu/about_indices_definition.php">Common Air Quality Index.</a>
+                        Deocamndată ICA este furnizat doar de valorile înregistrate pentru PM1, PM2,5 și PM10. Mai multe
+                        detalii despre poluanții PM găsiți <a href="https://ww2.arb.ca.gov/resources/inhalable-particulate-matter-and-health">aici</a>
+                    </p>
+                    <p>
+                        Stațiile de măsurare oferă informații ce sunt utilizate în calcularea indicelui de calitate a
+                        aerului, cuprinzând poluanții principali (PM10), la care se adaugă poluanții auxiliari (PM2,5 și PM1).
+                        Stațiile fac măsurători la intervale fixe, de 1 minut iar pe baza acestor măsuratori se
+                        calculează ICA pe ultimele <b>24 de ore</b> înregistrate.
+                        Indicele de calitate a aerului este dat de valoarea cea mai mare a poluanților. Astfel, pentru
+                        calculul acestuia se corelează valorile poluanților și valoarea indicelui din tabelul de mai jos.
+                        <br>Mai multe <a href="http://citeair.rec.org/home.html">informatii aici</a>.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </body>
-
-
 </html>
 
 <script>
-        var currentData = [];
-        var last24HoursAverageData = [];
-        var capabilities = [];
-        var tresholds = [];
-        var gauges = [];
-        var AQIData = [];
-        var aqiChart;
+    var currentData = [];
+    var last24HoursAverageData = [];
+    var capabilities = [];
+    var tresholds = [];
+    var gauges = [];
+    var AQIData = [];
+    var aqiChart;
 
-        function getDevices() {
-            $.ajax({
-                type: 'GET',
-                url: "https://data.uradmonitor.com/api/v1/devices",
-                dataType: 'json',
-                headers: { 'Content-Type': 'text/plain', 'X-User-id': userid, 'X-User-hash': userkey },
-                success: function (data) {
-                    data.forEach(function (item) { console.log(item.id) });
-                },
-                async: true
-            });
-        }
-        function getDeviceStatus(device) {
-            $.ajax({
-                type: 'GET',
-                url: "https://data.uradmonitor.com/api/v1/devices/",
-                dataType: 'json',
-                headers: { 'Content-Type': 'text/plain', 'X-User-id': userid, 'X-User-hash': userkey },
-                success: function (data) {
-                    data.forEach(function (item) {
-                        if (device == item.id) {
-                            console.log("Status " + item.status);
-                            if (item.status == 1)
-                                getDeviceCapabilities(device);
-                            else {
-                                $("#aqi-value").text("?");
-                                $("#aqi-text").text("Senzorul este offline");
-                                $("#aqi-text").css({ "color": "#ed1313" });
-                                $("#aqi-circle").css({ "background": "#37ac56" });
-                                $("#humidity").text("..........");
-                                $("#pressure").text("..........");
-                                $("#temperature").text("..........");
+    function getDevices() {
+        $.ajax({
+            type: 'GET',
+            url: "https://data.uradmonitor.com/api/v1/devices",
+            dataType: 'json',
+            headers: { 'Content-Type': 'text/plain', 'X-User-id': userid, 'X-User-hash': userkey },
+            success: function (data) {
+                data.forEach(function (item) { console.log(item.id) });
+            },
+            async: true
+        });
+    }
+    function getDeviceStatus(device) {
+        $.ajax({
+            type: 'GET',
+            url: "https://data.uradmonitor.com/api/v1/devices/",
+            dataType: 'json',
+            headers: { 'Content-Type': 'text/plain', 'X-User-id': userid, 'X-User-hash': userkey },
+            success: function (data) {
+                data.forEach(function (item) {
+                    if (device == item.id) {
+                        console.log("Status " + item.status);
+                        if (item.status == 1)
+                            getDeviceCapabilities(device);
+                        else {
+                            $("#aqi-value").text("?");
+                            $("#aqi-text").text("Senzorul este offline");
+                            $("#aqi-text").css({ "color": "#ed1313" });
+                            $("#aqi-circle").css({ "background": "#37ac56" });
+                            $("#humidity").text("..........");
+                            $("#pressure").text("..........");
+                            $("#temperature").text("..........");
 
-                            }
                         }
+                    }
+                });
+            },
+            async: true
+        });
+    }
+    async function getDeviceCapabilities(device) {
+        await $.ajax({
+            type: 'GET',
+            url: "https://data.uradmonitor.com/api/v1/devices/" + device,
+            dataType: 'json',
+            headers: { 'Content-Type': 'text/plain', 'X-User-id': userid, 'X-User-hash': userkey },
+            success: function (data) {
+                console.log("__________Device capabilities_____________");
+                Object.keys(data).forEach(function eachKey(key) {
+                    capabilities.push(new DeviceCapability(key, data[key][0], data[key][1]));
+
+                    t = getTresholds(key);
+                    if (t)
+                        tresholds.push(new SensorTresholds(key, t));
+                });
+                console.log(capabilities);
+                console.log(tresholds);
+
+                createGauges();
+                getLast24HoursData(device, "all")
+                getlast10MinutesAverageData(device, "all")
+                getCurrentData(device, "all")
+                getLast14DaysData(device, "all")
+
+                //shcedule automsatic update of data at each 2 minutes
+                setInterval(function () {
+                    getLast24HoursData(device, "all");
+                    getCurrentData(device, "all");
+                    getlast10MinutesAverageData(device, "all");
+                    getWeather();
+                }, 2 * 60 * 1000);
+            },
+            async: true
+        });
+    }
+
+    async function getLast24HoursData(device, sensor) {
+        last24HoursAverageData = [];
+        var now = Math.round(moment() / 1000)
+        var end = Math.round(moment() / 1000);
+        var start = Math.round(moment().subtract(24, 'hour') / 1000);
+
+        //console.log("https://data.uradmonitor.com/api/v1/devices/" + device + "/" + sensor + "/" + (now - start) + "/" + (now - end));
+        $.ajax({
+            type: 'GET',
+            url: "https://data.uradmonitor.com/api/v1/devices/" + device + "/" + sensor + "/" + (now - start) + "/" + (now - end),
+            dataType: 'json',
+            headers: { 'Content-Type': 'text/plain', 'X-User-id': userid, 'X-User-hash': userkey },
+            success: function (data, status) {
+                if (status != 'success') {
+                    console.log("fail");
+                }
+                else {
+                    console.log("____________Last 24 hours Average data___________________");
+                    capabilities.forEach(function (deviceData) {
+                        if (deviceData.id == 'pm1' || deviceData.id == 'pm10' || deviceData.id == 'pm25')
+                            last24HoursAverageData.push(new SensorData(deviceData.id, deviceData.name, deviceData.measurementUnit, arrayAvg(data.map(function (o) { return o[deviceData.id]; })).toFixed(2)));
                     });
-                },
-                async: true
-            });
-        }
-        async function getDeviceCapabilities(device) {
-            await $.ajax({
-                type: 'GET',
-                url: "https://data.uradmonitor.com/api/v1/devices/" + device,
-                dataType: 'json',
-                headers: { 'Content-Type': 'text/plain', 'X-User-id': userid, 'X-User-hash': userkey },
-                success: function (data) {
-                    console.log("__________Device capabilities_____________");
-                    Object.keys(data).forEach(function eachKey(key) {
-                        capabilities.push(new DeviceCapability(key, data[key][0], data[key][1]));
+                    console.log(last24HoursAverageData);
+                    //caluclate AQI
+                    //get the maximum value from all the PM1, PM2.5, and PM10 measurements
+                    var maxParamValue = last24HoursAverageData.reduce(function (prev, current) {
+                        return (prev.value > current.value) ? prev : current
+                    })
+                    var AQI = mapValueToAQI(maxParamValue.id, maxParamValue.value);
+                    $("#aqi-value").text(AQI.value);
+                    $("#aqi-text").text(AQI.text);
+                    // $("#aqi-text").css({ "color": AQI.color });
+                    $("#aqi-circle").css({ "background": AQI.color });
+                    console.log(AQI);
+                }
+            },
+            async: true
+        });
+    }
 
-                        t = getTresholds(key);
-                        if (t)
-                            tresholds.push(new SensorTresholds(key, t));
-                    });
-                    console.log(capabilities);
-                    console.log(tresholds);
+    async function getLast14DaysData(device, sensor) {
+        var sevenDays = 14 * 24 * 60 * 60; // 14 days in seconds
+        var oneDay = 86400;
+        //add an offset to get the 24 hours data starting from 00:00
+        var offset = Math.round((moment() - moment().startOf('day')) / 1000);
 
-                    createGauges();
-                    getLast24HoursData(device, "all")
-                    getlast10MinutesAverageData(device, "all")
-                    getCurrentData(device, "all")
-                    getLast14DaysData(device, "all")
-
-                    //shcedule automsatic update of data at each 2 minutes
-                    setInterval(function () {
-                        getLast24HoursData(device, "all");
-                        getCurrentData(device, "all");
-                        getlast10MinutesAverageData(device, "all");
-                        getWeather();
-                    }, 2 * 60 * 1000);
-                },
-                async: true
-            });
-        }
-
-        async function getLast24HoursData(device, sensor) {
-            last24HoursAverageData = [];
-            var now = Math.round(moment() / 1000)
-            var end = Math.round(moment() / 1000);
-            var start = Math.round(moment().subtract(24, 'hour') / 1000);
-
-            //console.log("https://data.uradmonitor.com/api/v1/devices/" + device + "/" + sensor + "/" + (now - start) + "/" + (now - end));
+        //make calls to get data for each individual day in the last 7 days
+        for (var i = offset; i < sevenDays + offset; i += oneDay) {
+            var start = i + oneDay;
+            var end = i;
+            console.log("https://data.uradmonitor.com/api/v1/devices/" + device + "/" + sensor + "/" + start + "/" + end);
             $.ajax({
                 type: 'GET',
-                url: "https://data.uradmonitor.com/api/v1/devices/" + device + "/" + sensor + "/" + (now - start) + "/" + (now - end),
+                url: "https://data.uradmonitor.com/api/v1/devices/" + device + "/" + sensor + "/" + start + "/" + end,
                 dataType: 'json',
                 headers: { 'Content-Type': 'text/plain', 'X-User-id': userid, 'X-User-hash': userkey },
-                success: function (data, status) {
+                beforeSend: function (jqxhr, settings) {
+                    jqxhr._data = { "start": start, "end": end }
+                },
+                success: function (data, status, jqXHR) {
                     if (status != 'success') {
                         console.log("fail");
                     }
-                    else {
-                        console.log("____________Last 24 hours Average data___________________");
+                    else if (!data.hasOwnProperty("success")) {
+
+                        var last14DaysData = [];
+                        console.log("____________" + moment.unix(moment().subtract(jqXHR._data.start, 'seconds') / 1000).format('MMMM Do YYYY hh:mm a')
+                            + " - " + moment.unix(moment().subtract(jqXHR._data.end, 'seconds') / 1000).format('MMMM Do YYYY hh:mm a')
+                            + " AQI ___________________");
+
                         capabilities.forEach(function (deviceData) {
                             if (deviceData.id == 'pm1' || deviceData.id == 'pm10' || deviceData.id == 'pm25')
-                                last24HoursAverageData.push(new SensorData(deviceData.id, deviceData.name, deviceData.measurementUnit, arrayAvg(data.map(function (o) { return o[deviceData.id]; })).toFixed(2)));
+                                if (data)
+                                    last14DaysData.push(new SensorData(deviceData.id, deviceData.name, deviceData.measurementUnit, arrayAvg(data.map(function (o) { return o[deviceData.id]; })).toFixed(2)));
                         });
-                        console.log(last24HoursAverageData);
                         //caluclate AQI
                         //get the maximum value from all the PM1, PM2.5, and PM10 measurements
-                        var maxParamValue = last24HoursAverageData.reduce(function (prev, current) {
+                        var maxParamValue = last14DaysData.reduce(function (prev, current) {
                             return (prev.value > current.value) ? prev : current
                         })
                         var AQI = mapValueToAQI(maxParamValue.id, maxParamValue.value);
-                        $("#aqi-value").text(AQI.value);
-                        $("#aqi-text").text(AQI.text);
-                        $("#aqi-text").css({ "color": AQI.color });
-                        $("#aqi-circle").css({ "background": AQI.color });
                         console.log(AQI);
+                        AQIData.push({ "AQI": AQI, "start": moment.unix(moment().subtract(jqXHR._data.end, 'seconds') / 1000) });
+                        addChartData(aqiChart, moment.unix(moment().subtract(jqXHR._data.end, 'seconds') / 1000), AQI.value, AQI.color)
                     }
                 },
                 async: true
             });
         }
 
-        async function getLast14DaysData(device, sensor) {
-            var sevenDays = 14 * 24 * 60 * 60; // 14 days in seconds
-            var oneDay = 86400;
-            //add an offset to get the 24 hours data starting from 00:00
-            var offset = Math.round((moment() - moment().startOf('day')) / 1000);
+    }
 
-            //make calls to get data for each individual day in the last 7 days
-            for (var i = offset; i < sevenDays + offset; i += oneDay) {
-                var start = i + oneDay;
-                var end = i;
-                console.log("https://data.uradmonitor.com/api/v1/devices/" + device + "/" + sensor + "/" + start + "/" + end);
-                $.ajax({
-                    type: 'GET',
-                    url: "https://data.uradmonitor.com/api/v1/devices/" + device + "/" + sensor + "/" + start + "/" + end,
-                    dataType: 'json',
-                    headers: { 'Content-Type': 'text/plain', 'X-User-id': userid, 'X-User-hash': userkey },
-                    beforeSend: function (jqxhr, settings) {
-                        jqxhr._data = { "start": start, "end": end }
-                    },
-                    success: function (data, status, jqXHR) {
-                        if (status != 'success') {
-                            console.log("fail");
-                        }
-                        else if (!data.hasOwnProperty("success")) {
-
-                            var last14DaysData = [];
-                            console.log("____________" + moment.unix(moment().subtract(jqXHR._data.start, 'seconds') / 1000).format('MMMM Do YYYY hh:mm a')
-                                + " - " + moment.unix(moment().subtract(jqXHR._data.end, 'seconds') / 1000).format('MMMM Do YYYY hh:mm a')
-                                + " AQI ___________________");
-
-                            capabilities.forEach(function (deviceData) {
-                                if (deviceData.id == 'pm1' || deviceData.id == 'pm10' || deviceData.id == 'pm25')
-                                    if (data)
-                                        last14DaysData.push(new SensorData(deviceData.id, deviceData.name, deviceData.measurementUnit, arrayAvg(data.map(function (o) { return o[deviceData.id]; })).toFixed(2)));
+    function getCurrentData(device, sensor) {
+        currentData = [];
+        $.ajax({
+            type: 'GET',
+            url: "https://data.uradmonitor.com/api/v1/devices/" + device + "/" + sensor + "/60/0",
+            dataType: 'json',
+            headers: { 'Content-Type': 'text/plain', 'X-User-id': userid, 'X-User-hash': userkey },
+            success: function (data, status) {
+                if (status != 'success') {
+                    console.log("fail");
+                }
+                else {
+                    console.log("____________Current data___________________");
+                    //update last read textfield
+                    $("#datetime").text(moment.unix(data[0].time).format('MMMM Do YYYY h:mm:ss a'));
+                    capabilities.forEach(function (capability) {
+                        Object.keys(data[0])
+                            .forEach(function eachKey(key) {
+                                if (key == capability.id)
+                                    currentData.push(new SensorData(capability.id, capability.name, capability.measurementUnit, data[0][key]));
                             });
-                            //caluclate AQI
-                            //get the maximum value from all the PM1, PM2.5, and PM10 measurements
-                            var maxParamValue = last14DaysData.reduce(function (prev, current) {
-                                return (prev.value > current.value) ? prev : current
-                            })
-                            var AQI = mapValueToAQI(maxParamValue.id, maxParamValue.value);
-                            console.log(AQI);
-                            AQIData.push({ "AQI": AQI, "start": moment.unix(moment().subtract(jqXHR._data.end, 'seconds') / 1000) });
-                            addChartData(aqiChart, moment.unix(moment().subtract(jqXHR._data.end, 'seconds') / 1000), AQI.value, AQI.color)
-                        }
-                    },
-                    async: true
-                });
-            }
+                    });
+                    console.log(currentData);
+                    console.log("___________________________________________");
+                    currentData.forEach(function (sensorData) {
+                        $("#" + sensorData.id).text(sensorData.value + " " + sensorData.measurementUnit);
+                    });
+                }
+            },
+            async: true
+        });
+    }
 
-        }
+    function getlast10MinutesAverageData(device, sensor) {
+        var last10MinutesData = []
+        $.ajax({
+            type: 'GET',
+            url: "https://data.uradmonitor.com/api/v1/devices/" + device + "/" + sensor + "/600/0",
+            dataType: 'json',
+            headers: { 'Content-Type': 'text/plain', 'X-User-id': userid, 'X-User-hash': userkey },
+            success: function (data, status) {
+                if (status != 'success') {
+                    console.log("fail");
+                }
+                else {
+                    console.log("____________Last Ten Minutes Average data___________________");
+                    capabilities.forEach(function (deviceData) {
+                        //get the average for each of the PMs in the last hour
+                        if (deviceData.id == 'pm1' || deviceData.id == 'pm10' || deviceData.id == 'pm25')
+                            last10MinutesData.push(new SensorData(deviceData.id, deviceData.name, deviceData.measurementUnit, arrayAvg(data.map(function (o) { return o[deviceData.id]; })).toFixed(2)));
+                    });
+                    console.log(last10MinutesData);
 
-        function getCurrentData(device, sensor) {
-            currentData = [];
-            $.ajax({
-                type: 'GET',
-                url: "https://data.uradmonitor.com/api/v1/devices/" + device + "/" + sensor + "/60/0",
-                dataType: 'json',
-                headers: { 'Content-Type': 'text/plain', 'X-User-id': userid, 'X-User-hash': userkey },
-                success: function (data, status) {
-                    if (status != 'success') {
-                        console.log("fail");
-                    }
-                    else {
-                        console.log("____________Current data___________________");
-                        //update last read textfield
-                        $("#datetime").text(moment.unix(data[0].time).format('MMMM Do YYYY h:mm:ss a'));
-                        capabilities.forEach(function (capability) {
-                            Object.keys(data[0])
-                                .forEach(function eachKey(key) {
-                                    if (key == capability.id)
-                                        currentData.push(new SensorData(capability.id, capability.name, capability.measurementUnit, data[0][key]));
-                                });
+                    //populate gauges
+                    last10MinutesData.forEach(function (sensorData) {
+                        gauges.forEach(function (gaugeData) {
+                            if (sensorData.id == gaugeData.sensor) {
+                                gaugeData.gauge.set(sensorData.value);
+                                $("#" + gaugeData.id + "-info").text(sensorData.name);
+                                $("#" + gaugeData.id + "-unit").text(sensorData.measurementUnit);
+                            }
                         });
-                        console.log(currentData);
-                        console.log("___________________________________________");
-                        currentData.forEach(function (sensorData) {
-                            $("#" + sensorData.id).text(sensorData.value + " " + sensorData.measurementUnit);
-                        });
-                    }
+                    });
+
+                }
+            },
+            async: true
+        });
+    }
+
+    function createGauges() {
+        gauges = [];
+        //this will render all the gauges based on the static values from getTresholds();
+        tresholds.forEach(function (treshold) {
+            const div = document.createElement('div');
+            var gaugeid = treshold.name + '-gauge';
+            div.className = 'gauge-container m-1 bg-white border py-4 shadow-sm';
+            div.innerHTML = '<canvas class="gauge d-block" id="' + gaugeid + '"></canvas>' +
+                '<span id="' + gaugeid + '-info" class=" gauge-info"></span>' +
+                '<span id="' + gaugeid + '-textfield" class="gauge-textfield"></span>' +
+                '<span id="' + gaugeid + '-unit" class=" gauge-unit"></span>';
+            document.getElementById('sensor-gauges').appendChild(div);
+
+            //create gauge
+            gauge = new Gauge(document.getElementById(gaugeid));
+            var opts = {
+                angle: -0.25,
+                lineWidth: 0.2,
+                pointer: {
+                    length: 0.6,
+                    strokeWidth: 0.05,
+                    color: '#000000'
                 },
-                async: true
-            });
-        }
-
-        function getlast10MinutesAverageData(device, sensor) {
-            var last10MinutesData = []
-            $.ajax({
-                type: 'GET',
-                url: "https://data.uradmonitor.com/api/v1/devices/" + device + "/" + sensor + "/600/0",
-                dataType: 'json',
-                headers: { 'Content-Type': 'text/plain', 'X-User-id': userid, 'X-User-hash': userkey },
-                success: function (data, status) {
-                    if (status != 'success') {
-                        console.log("fail");
-                    }
-                    else {
-                        console.log("____________Last Ten Minutes Average data___________________");
-                        capabilities.forEach(function (deviceData) {
-                            //get the average for each of the PMs in the last hour
-                            if (deviceData.id == 'pm1' || deviceData.id == 'pm10' || deviceData.id == 'pm25')
-                                last10MinutesData.push(new SensorData(deviceData.id, deviceData.name, deviceData.measurementUnit, arrayAvg(data.map(function (o) { return o[deviceData.id]; })).toFixed(2)));
-                        });
-                        console.log(last10MinutesData);
-
-                        //populate gauges
-                        last10MinutesData.forEach(function (sensorData) {
-                            gauges.forEach(function (gaugeData) {
-                                if (sensorData.id == gaugeData.sensor) {
-                                    gaugeData.gauge.set(sensorData.value);
-                                    $("#" + gaugeData.id + "-info").text(sensorData.name);
-                                    $("#" + gaugeData.id + "-unit").text(sensorData.measurementUnit);
-                                }
-                            });
-                        });
-
-                    }
+                //create gauge limits
+                staticZones: [
+                    { strokeStyle: treshold.limits[0].color, min: treshold.limits[0].low, max: treshold.limits[0].high },
+                    { strokeStyle: treshold.limits[1].color, min: treshold.limits[1].low, max: treshold.limits[1].high },
+                    { strokeStyle: treshold.limits[2].color, min: treshold.limits[2].low, max: treshold.limits[2].high },
+                    { strokeStyle: treshold.limits[3].color, min: treshold.limits[3].low, max: treshold.limits[3].high },
+                    { strokeStyle: treshold.limits[4].color, min: treshold.limits[4].low, max: treshold.limits[4].high },
+                ],
+                staticLabels: {
+                    font: "10px sans-serif",
+                    labels: [treshold.limits[0].low, treshold.limits[1].low, treshold.limits[2].low, treshold.limits[3].low, treshold.limits[4].low],
+                    color: "#000000",
+                    fractionDigits: 0
                 },
-                async: true
+                limitMax: false,
+                limitMin: false,
+                strokeColor: '#E0E0E0',
+                highDpiSupport: true,
+                generateGradient: true,
+            };
+
+            gauge.minValue = treshold.limits[0].low;
+            gauge.maxValue = treshold.limits[4].high;
+            gauge.animationSpeed = 100;
+            gauge.setOptions(opts);
+            gauge.setTextField(document.getElementById(gaugeid + "-textfield"));
+
+            //add the gauges to the list
+            gauges.push({
+                "id": gaugeid, "sensor": treshold.name, "gauge": gauge
             });
-        }
+        });
+    }
 
-        function createGauges() {
-            gauges = [];
-            //this will render all the gauges based on the static values from getTresholds();
-            tresholds.forEach(function (treshold) {
-
-                const div = document.createElement('div');
-                var gaugeid = treshold.name + '-gauge';
-                div.className = 'col-md-4 gauge-container';
-                div.innerHTML = '<canvas class="gauge" id="' + gaugeid + '"></canvas>' +
-                    '<div id="' + gaugeid + '-textfield" class="gauge-textfield"></div>' +
-                    '<span id="' + gaugeid + '-info" class="gauge-info"></span>' +
-                    '<span id="' + gaugeid + '-unit" class="gauge-unit"></span>';
-                document.getElementById('sensor-gauges').appendChild(div);
-
-                //create gauge
-                gauge = new Gauge(document.getElementById(gaugeid));
-                var opts = {
-                    angle: -0.25,
-                    lineWidth: 0.2,
-                    pointer: {
-                        length: 0.6,
-                        strokeWidth: 0.05,
-                        color: '#000000'
-                    },
-                    //create gauge limits
-                    staticZones: [
-                        { strokeStyle: treshold.limits[0].color, min: treshold.limits[0].low, max: treshold.limits[0].high },
-                        { strokeStyle: treshold.limits[1].color, min: treshold.limits[1].low, max: treshold.limits[1].high },
-                        { strokeStyle: treshold.limits[2].color, min: treshold.limits[2].low, max: treshold.limits[2].high },
-                        { strokeStyle: treshold.limits[3].color, min: treshold.limits[3].low, max: treshold.limits[3].high },
-                        { strokeStyle: treshold.limits[4].color, min: treshold.limits[4].low, max: treshold.limits[4].high },
-                    ],
-                    staticLabels: {
-                        font: "10px sans-serif",
-                        labels: [treshold.limits[0].low, treshold.limits[1].low, treshold.limits[2].low, treshold.limits[3].low, treshold.limits[4].low],
-                        color: "#000000",
-                        fractionDigits: 0
-                    },
-                    limitMax: false,
-                    limitMin: false,
-                    strokeColor: '#E0E0E0',
-                    highDpiSupport: true,
-                    generateGradient: true,
-                };
-
-                gauge.minValue = treshold.limits[0].low;
-                gauge.maxValue = treshold.limits[4].high;
-                gauge.animationSpeed = 100;
-                gauge.setOptions(opts);
-                gauge.setTextField(document.getElementById(gaugeid + "-textfield"));
-
-                //add the gauges to the list
-                gauges.push({
-                    "id": gaugeid, "sensor": treshold.name, "gauge": gauge
-                });
-            });
-        }
-
-        function createBarChart() {
-            var ctx = document.getElementById('aqiChart');
-            aqiChart = new Chart(ctx, {
-                type: "bar",
-                data: {
-                    labels: AQIData.map(d => d.AQI.timestamp)
-                    ,
-                    datasets: [
+    function createBarChart() {
+        var ctx = document.getElementById('aqiChart');
+        aqiChart = new Chart(ctx, {
+            type: "bar",
+            data: {
+                labels: AQIData.map(d => d.AQI.timestamp),
+                datasets: [
+                    {
+                        label: "AQI",
+                        borderColor: "#0488d4",
+                        data: AQIData.map(d => d.AQI.value)
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    xAxes: [
                         {
-                            label: "AQI",
-                            borderColor: "#0488d4",
-                            data: AQIData.map(d => d.AQI.value)
+                            display: true,
+                            type: 'time',
+                            time: {
+                                parser: 'MM/DD/YYYY HH:mm',
+                                tooltipFormat: 'll HH:mm',
+                                unit: 'day',
+                                unitStepSize: 1,
+                                displayFormats: {
+                                    'day': 'MMMM Do YYYY'
+                                }
+                            }
+                        }
+                    ],
+                    yAxes: [
+                        {
+                            ticks: { min: 0 }
                         }
                     ]
-                },
-                options: {
-
-                    scales: {
-                        xAxes: [
-                            {
-                                display: true,
-                                type: 'time',
-                                time: {
-                                    parser: 'MM/DD/YYYY HH:mm',
-                                    tooltipFormat: 'll HH:mm',
-                                    unit: 'day',
-                                    unitStepSize: 1,
-                                    displayFormats: {
-                                        'day': 'MMMM Do YYYY'
-                                    }
-                                }
-                            }
-                        ],
-                        yAxes: [
-                            {
-                                ticks: { min: 0 }
-                            }
-                        ]
-                    }
                 }
-            });
-        }
-        function addChartData(chart, label, data, color) {
-            chart.data.labels.push(label);
-            chart.data.datasets.forEach((dataset) => {
-                dataset.data.push(data);
-                dataset.backgroundColor = color;
-            });
-            chart.update();
-        }
-
-        function getWeather() {
-            var settings = {
-                "async": true,
-                "crossDomain": true,
-                "url": "https://api.weatherapi.com/v1/current.json?key=f9be907c55194574beb185148200206&q=Rasnov&lang=ro",
-                "method": "GET"
             }
+        });
+    }
+    function addChartData(chart, label, data, color) {
+        chart.data.labels.push(label);
+        chart.data.datasets.forEach((dataset) => {
+            dataset.data.push(data);
+            dataset.backgroundColor = color;
+        });
+        chart.update();
+    }
 
-            $.ajax(settings).success(function (data) {
-                console.log(data.current);
-                var iconurl = data.current.condition.icon;
-                var description = data.current.condition.text;
-                var wind = data.current.wind_kph + "km/h " + data.current.wind_dir;
-                $('#weather').attr('src', "https://" + iconurl);
-                $('#weatherDescription').text(description);
-                $('#wind').text(wind);
-            });
+    function getWeather() {
+        var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": "https://api.weatherapi.com/v1/current.json?key=f9be907c55194574beb185148200206&q=Rasnov&lang=ro",
+            "method": "GET"
         }
+
+        $.ajax(settings).success(function (data) {
+            console.log(data.current);
+            var iconurl = data.current.condition.icon;
+            var description = data.current.condition.text;
+            var wind = data.current.wind_kph + "km/h " + data.current.wind_dir;
+            $('#weather').attr('src', "https://" + iconurl);
+            $('#weatherDescription').text(description);
+            $('#wind').text(wind);
+        });
+    }
 
 </script>
 
 <script>
-        //Start Execution
-        createBarChart();
-        getDevices();
-        getDeviceStatus(device);
-        getWeather();
+    //Start Execution
+    createBarChart();
+    getDevices();
+    getDeviceStatus(device);
+    getWeather();
 </script>
