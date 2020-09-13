@@ -1,15 +1,16 @@
 # uRADMonitorGraphs
 
-<b>Proof-of-Concept implementation for uRADMonitor API </b>
-<br/><br/>
-![](images/graph_example.PNG)
-<br/>
-<ul>
- Js Libraries
-   <li>moment.js</li>
-   <li>dyngraphs.js</li>
-   <li>jquery.comiseo.daterangepicker.js </li>
-   <li>jquerry-ui.js</li>
-   <li>chart.js</li>
-   <li>gauge.js</li>
-<ul/>
+Proof-of-Concept implementation for uRADMonitor API
+
+[aer.schubz.ro](https://aer.schubz.ro/) 
+
+![dashboard aer.schubz.ro](images/dashboard-aer.schubz.ro.png)
+![advanced](images/advanced.png)
+
+Js Libraries
+- moment.js
+- dyngraphs.js
+- jquery.comiseo.daterangepicker.js 
+- jquerry-ui.js
+- chart.js
+- gauge.js
